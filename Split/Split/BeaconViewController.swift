@@ -11,7 +11,7 @@ import UIKit
 class BeaconViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, BeaconScannerDelegate {
     
     var beaconScanner: BeaconScanner!
-    var listObeacons: [String] = ["Table0"]
+    var listObeacons: [String] = ["Table 0"]
     var sumOfDicts: [String:Double] = [:]
     var averageTable: [String:[Double]] = [:]
     var distance: Double!
@@ -23,8 +23,8 @@ class BeaconViewController: UIViewController, UITableViewDelegate, UITableViewDa
     var beaconsSearched : [String] = []
     
     var beaconHardDict : [String : String] = [
-        "http://www.vineeth.com" : "Table1",
-        "http://www.revanth.com" : "Table2",
+        "http://www.vineeth.com" : "Table 1",
+        "http://www.revanth.com" : "Table 2",
     ]
 
     
@@ -97,7 +97,6 @@ class BeaconViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
         if distance < 0.3 {
             
-            
             if (beaconsSearched.contains(beaconString)){
                 //print("already there")
             } else {
@@ -146,7 +145,12 @@ class BeaconViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        self.performSegue(withIdentifier: "selectTableSegue", sender: self)
+        let alert = UIAlertController(title: "Confirm Table Selection", message: "Are you sure you would like to join \(listObeacons[indexPath.row])", preferredStyle: UIAlertController.Style.alert)
+        alert.addAction(UIAlertAction(title: "Confirm", style: UIAlertAction.Style.default, handler: {(alert: UIAlertAction!) in
+            self.performSegue(withIdentifier: "selectTableSegue", sender: self)
+        }))
+        self.present(alert, animated: true, completion: nil)
+        
     }
     
     
