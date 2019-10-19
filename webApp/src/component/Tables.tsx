@@ -1,5 +1,6 @@
 import React from 'react'; 
 import '../stylesheets/Tables.css';
+import TableButton from './TableButton';
 
 type TablesState = {
 }
@@ -11,7 +12,9 @@ class Tables extends React.Component<TablesProp,TablesState>{
     render() {
         return(
             <div className="tableContainer">
-                Yo
+                <TableButton name="1"/>
+                <TableButton name="2"/>
+                <TableButton name="3"/>
             </div>
         )
     }
