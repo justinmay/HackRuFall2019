@@ -109,9 +109,6 @@ class BeaconViewController: UIViewController, UITableViewDelegate, UITableViewDa
         if(averageTable[beaconString]!.count>=6){
             print("URL SEEN: \(URL), RSSI: \(RSSI), Distance: \(sumOfDicts[beaconString]! / 5)")
         }
-
-
-        
     }
     
     func getDistance(rssi: Int, txPower: Double) -> Double {
@@ -128,6 +125,13 @@ class BeaconViewController: UIViewController, UITableViewDelegate, UITableViewDa
             return accuracy;
         }
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        self.performSegue(withIdentifier: "selectTableSegue", sender: self)
+    }
+    
+    
+    
     /*
     // MARK: - Navigation
 
