@@ -146,7 +146,12 @@ class BeaconViewController: UIViewController, UITableViewDelegate, UITableViewDa
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         let alert = UIAlertController(title: "Confirm Table Selection", message: "Are you sure you would like to join \(listObeacons[indexPath.row])", preferredStyle: UIAlertController.Style.alert)
+        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel, handler: nil))
         alert.addAction(UIAlertAction(title: "Confirm", style: UIAlertAction.Style.default, handler: {(alert: UIAlertAction!) in
+            
+            let username = UserDefaults.standard.string(forKey: "username")
+            DataManager.dataManager.verifyUser(username: username!, table: "\(indexPath.row + 1)")
+            
             self.performSegue(withIdentifier: "selectTableSegue", sender: self)
         }))
         self.present(alert, animated: true, completion: nil)

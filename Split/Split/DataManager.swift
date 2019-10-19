@@ -23,12 +23,13 @@ struct PeopleInTable: Codable {
 
 class DataManager {
     
-    let baseUrl: String = "www.aditya.com"
+    static let dataManager = DataManager()
+    let baseUrl: String = "https://3e3f4486.ngrok.io"
     
     // Verifying user entered a specific table
     func verifyUser(username: String, table: String) {
         
-        if let url = URL(string: "\(baseUrl)/1/tables/\(table)/verify?username=\(username)") {
+        if let url = URL(string: "\(baseUrl)/restaurants/1/tables/\(table)/verify?username=\(username)") {
 
             var request = URLRequest(url: url)
             request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
