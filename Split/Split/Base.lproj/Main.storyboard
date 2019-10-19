@@ -57,10 +57,10 @@
             </objects>
             <point key="canvasLocation" x="1002.8985507246377" y="118.52678571428571"/>
         </scene>
-        <!--View Controller-->
+        <!--Beacon View Controller-->
         <scene sceneID="xbs-7l-rS2">
             <objects>
-                <viewController id="0pC-1W-hNc" customClass="ViewController" customModule="Split" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="0pC-1W-hNc" customClass="BeaconViewController" customModule="Split" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="eVb-19-1t5">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -68,10 +68,23 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="dup-8P-cib">
                                 <rect key="frame" x="20" y="193" width="374" height="584"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="108" id="tCH-AW-KFE">
+                                        <rect key="frame" x="0.0" y="28" width="374" height="108"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="tCH-AW-KFE" id="eBq-bI-Run">
+                                            <rect key="frame" x="0.0" y="0.0" width="374" height="107.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="0pC-1W-hNc" id="ccZ-YT-qjN"/>
+                                    <outlet property="delegate" destination="0pC-1W-hNc" id="gdl-Pe-bfU"/>
+                                </connections>
                             </tableView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Beacons..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Nju-1n-D2D">
-                                <rect key="frame" x="130" y="66" width="154" height="75"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Searching For Beacons..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Nju-1n-D2D">
+                                <rect key="frame" x="50" y="110" width="314" height="75"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -79,13 +92,20 @@
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="Nju-1n-D2D" firstAttribute="top" secondItem="d4R-d4-Lj2" secondAttribute="top" constant="22" id="4El-kd-5Zr"/>
+                            <constraint firstItem="dup-8P-cib" firstAttribute="top" secondItem="Nju-1n-D2D" secondAttribute="bottom" constant="8" id="7x9-pq-xNw"/>
+                            <constraint firstItem="Nju-1n-D2D" firstAttribute="leading" secondItem="d4R-d4-Lj2" secondAttribute="leading" constant="50" id="9RK-eC-1Yh"/>
                             <constraint firstItem="dup-8P-cib" firstAttribute="top" secondItem="d4R-d4-Lj2" secondAttribute="top" constant="105" id="FBp-1X-Ept"/>
                             <constraint firstItem="d4R-d4-Lj2" firstAttribute="trailing" secondItem="dup-8P-cib" secondAttribute="trailing" constant="20" id="kpK-ER-fBW"/>
+                            <constraint firstItem="d4R-d4-Lj2" firstAttribute="trailing" secondItem="Nju-1n-D2D" secondAttribute="trailing" constant="50" id="p1R-CS-1Tf"/>
                             <constraint firstItem="d4R-d4-Lj2" firstAttribute="bottom" secondItem="dup-8P-cib" secondAttribute="bottom" constant="85" id="xIl-Zp-fSN"/>
                             <constraint firstItem="dup-8P-cib" firstAttribute="leading" secondItem="d4R-d4-Lj2" secondAttribute="leading" constant="20" id="y7y-iH-iru"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="d4R-d4-Lj2"/>
                     </view>
+                    <connections>
+                        <outlet property="beaconTableView" destination="dup-8P-cib" id="3pD-6Q-R78"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wBv-zI-q3E" sceneMemberID="firstResponder"/>
             </objects>
