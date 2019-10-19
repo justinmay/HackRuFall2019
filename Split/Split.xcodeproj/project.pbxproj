@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9814A076235BB52600CBA313 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9814A075235BB52600CBA313 /* DataManager.swift */; };
 		A8686F2B235B907E00A07E32 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8686F2A235B907E00A07E32 /* AppDelegate.swift */; };
 		A8686F2D235B907E00A07E32 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8686F2C235B907E00A07E32 /* ViewController.swift */; };
 		A8686F30235B907E00A07E32 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A8686F2E235B907E00A07E32 /* Main.storyboard */; };
@@ -17,10 +18,10 @@
 		A8686F42235B98A900A07E32 /* DispatchTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8686F41235B98A900A07E32 /* DispatchTimer.swift */; };
 		A8686F44235B98E200A07E32 /* BeaconScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8686F43235B98E200A07E32 /* BeaconScanner.swift */; };
 		A8686F46235BA65A00A07E32 /* SessionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8686F45235BA65A00A07E32 /* SessionViewController.swift */; };
-		A8686F48235BAF3E00A07E32 /* Networking.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8686F47235BAF3E00A07E32 /* Networking.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9814A075235BB52600CBA313 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		A8686F27235B907E00A07E32 /* Split.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Split.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A8686F2A235B907E00A07E32 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A8686F2C235B907E00A07E32 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -33,7 +34,6 @@
 		A8686F41235B98A900A07E32 /* DispatchTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DispatchTimer.swift; sourceTree = "<group>"; };
 		A8686F43235B98E200A07E32 /* BeaconScanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeaconScanner.swift; sourceTree = "<group>"; };
 		A8686F45235BA65A00A07E32 /* SessionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionViewController.swift; sourceTree = "<group>"; };
-		A8686F47235BAF3E00A07E32 /* Networking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Networking.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,7 +75,7 @@
 				A8686F31235B907F00A07E32 /* Assets.xcassets */,
 				A8686F33235B907F00A07E32 /* LaunchScreen.storyboard */,
 				A8686F36235B907F00A07E32 /* Info.plist */,
-				A8686F47235BAF3E00A07E32 /* Networking.swift */,
+				9814A075235BB52600CBA313 /* DataManager.swift */,
 			);
 			path = Split;
 			sourceTree = "<group>";
@@ -164,10 +164,10 @@
 				A8686F42235B98A900A07E32 /* DispatchTimer.swift in Sources */,
 				A8686F2D235B907E00A07E32 /* ViewController.swift in Sources */,
 				A8686F3F235B983000A07E32 /* Eddystone.swift in Sources */,
-				A8686F48235BAF3E00A07E32 /* Networking.swift in Sources */,
 				A8686F3D235B934400A07E32 /* BeaconViewController.swift in Sources */,
 				A8686F44235B98E200A07E32 /* BeaconScanner.swift in Sources */,
 				A8686F46235BA65A00A07E32 /* SessionViewController.swift in Sources */,
+				9814A076235BB52600CBA313 /* DataManager.swift in Sources */,
 				A8686F2B235B907E00A07E32 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
