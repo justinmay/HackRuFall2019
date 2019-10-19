@@ -10,9 +10,8 @@ import UIKit
 
 class BeaconViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, BeaconScannerDelegate {
     
-    
     var beaconScanner: BeaconScanner!
-    var listObeacons: [String] = []
+    var listObeacons: [String] = ["Table0"]
     var sumOfDicts: [String:Double] = [:]
     var averageTable: [String:[Double]] = [:]
     var distance: Double!
@@ -49,14 +48,22 @@ class BeaconViewController: UIViewController, UITableViewDelegate, UITableViewDa
         tableViewCell.textLabel?.text = listObeacons[indexPath.row]
         return tableViewCell
     }
-    
-    
 
     func didFindBeacon(beaconScanner: BeaconScanner, beaconInfo: BeaconInfo) {
          NSLog("FIND: %@", beaconInfo.description)
     }
     
-    func didLoseBeacon(beaconScanner: BeaconScanner, beaconInfo: BeaconInfo) {
+    func didLoseBeacon(beaconScanner: BeaconScanner, URL: NSURL, beaconInfo: BeaconInfo) {
+        let beaconString = URL.absoluteString!
+        let beaconActualString = beaconHardDict[beaconString]
+        if let beaconActualString = beaconActualString,
+           let index = listObeacons.firstIndex(of: beaconActualString) {
+            listObeacons.remove(at: index)
+            DispatchQueue.main.async {
+                self.beaconTableView.reloadData()
+            }
+        }
+        print("Lost " + URL.absoluteString!)
         NSLog("LOST: %@", beaconInfo.description)
     }
     
@@ -66,11 +73,20 @@ class BeaconViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     func didObserveURLBeacon(beaconScanner: BeaconScanner, URL: NSURL, RSSI: Int) {
         let distance = getDistance(rssi: RSSI, txPower: self.txPower)
+        let beaconString = URL.absoluteString!
+        
         if(distance >= 3.0){
+            print(beaconString)
+//            let beaconActualString = beaconHardDict[beaconString]
+//            if let beaconActualString = beaconActualString {
+//
+//                if(listObeacons.contains(beaconActualString)) {
+//                    listObeacons.remove(at: listObeacons.firstIndex(of: beaconActualString)!)
+//                }
+//            }
             return;
         }
         
-        let beaconString = URL.absoluteString!
         if averageTable[beaconString] == nil {
             averageTable[beaconString] = [distance]
             sumOfDicts[beaconString] = 0.0
@@ -90,7 +106,9 @@ class BeaconViewController: UIViewController, UITableViewDelegate, UITableViewDa
                 let beaconActualString = beaconHardDict[beaconString]
                 if let beaconActualString = beaconActualString {
                     listObeacons.append(beaconActualString)
-                    self.beaconTableView.reloadData()
+                    DispatchQueue.main.async {
+                        self.beaconTableView.reloadData()
+                    }
                 }
                 
                 print(beaconActualString! + " found")
@@ -109,9 +127,6 @@ class BeaconViewController: UIViewController, UITableViewDelegate, UITableViewDa
         if(averageTable[beaconString]!.count>=6){
             print("URL SEEN: \(URL), RSSI: \(RSSI), Distance: \(sumOfDicts[beaconString]! / 5)")
         }
-
-
-        
     }
     
     func getDistance(rssi: Int, txPower: Double) -> Double {
@@ -128,14 +143,23 @@ class BeaconViewController: UIViewController, UITableViewDelegate, UITableViewDa
             return accuracy;
         }
     }
-    /*
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        self.performSegue(withIdentifier: "selectTableSegue", sender: self)
+    }
+    
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+        if segue.identifier == "selectTableSegue" {
+            var selectedindex = beaconTableView.indexPathForSelectedRow?.row
+            guard let index = selectedindex else { return }
+            let destination = segue.destination as? SessionViewController
+            guard let sessionViewController = destination else { return }
+            sessionViewController.tableName = listObeacons[index]
+        }
     }
-    */
-
 }
