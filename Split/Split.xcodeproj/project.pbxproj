@@ -12,6 +12,7 @@
 		A8686F30235B907E00A07E32 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A8686F2E235B907E00A07E32 /* Main.storyboard */; };
 		A8686F32235B907F00A07E32 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A8686F31235B907F00A07E32 /* Assets.xcassets */; };
 		A8686F35235B907F00A07E32 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A8686F33235B907F00A07E32 /* LaunchScreen.storyboard */; };
+		A8686F3D235B934400A07E32 /* BeaconViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8686F3C235B934400A07E32 /* BeaconViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +23,7 @@
 		A8686F31235B907F00A07E32 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A8686F34235B907F00A07E32 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A8686F36235B907F00A07E32 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A8686F3C235B934400A07E32 /* BeaconViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeaconViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +58,7 @@
 			children = (
 				A8686F2A235B907E00A07E32 /* AppDelegate.swift */,
 				A8686F2C235B907E00A07E32 /* ViewController.swift */,
+				A8686F3C235B934400A07E32 /* BeaconViewController.swift */,
 				A8686F2E235B907E00A07E32 /* Main.storyboard */,
 				A8686F31235B907F00A07E32 /* Assets.xcassets */,
 				A8686F33235B907F00A07E32 /* LaunchScreen.storyboard */,
@@ -136,6 +139,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A8686F2D235B907E00A07E32 /* ViewController.swift in Sources */,
+				A8686F3D235B934400A07E32 /* BeaconViewController.swift in Sources */,
 				A8686F2B235B907E00A07E32 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
