@@ -10,9 +10,8 @@ import UIKit
 
 class BeaconViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, BeaconScannerDelegate {
     
-    
     var beaconScanner: BeaconScanner!
-    var listObeacons: [String] = []
+    var listObeacons: [String] = ["Table0"]
     var sumOfDicts: [String:Double] = [:]
     var averageTable: [String:[Double]] = [:]
     var distance: Double!
@@ -49,8 +48,6 @@ class BeaconViewController: UIViewController, UITableViewDelegate, UITableViewDa
         tableViewCell.textLabel?.text = listObeacons[indexPath.row]
         return tableViewCell
     }
-    
-    
 
     func didFindBeacon(beaconScanner: BeaconScanner, beaconInfo: BeaconInfo) {
          NSLog("FIND: %@", beaconInfo.description)
@@ -148,19 +145,21 @@ class BeaconViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
         self.performSegue(withIdentifier: "selectTableSegue", sender: self)
     }
     
     
-    
-    /*
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+        if segue.identifier == "selectTableSegue" {
+            var selectedindex = beaconTableView.indexPathForSelectedRow?.row
+            guard let index = selectedindex else { return }
+            let destination = segue.destination as? SessionViewController
+            guard let sessionViewController = destination else { return }
+            sessionViewController.tableName = listObeacons[index]
+        }
     }
-    */
-
 }

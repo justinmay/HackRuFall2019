@@ -16,7 +16,7 @@ class SessionViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "Justin's Kitchen - \(tableName)"
+        self.title = "Justin's Kitchen - \(tableName!)"
     }
     
 
