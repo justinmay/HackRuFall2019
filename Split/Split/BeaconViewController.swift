@@ -8,28 +8,126 @@
 
 import UIKit
 
-class BeaconViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class BeaconViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, BeaconScannerDelegate {
     
+    
+    var beaconScanner: BeaconScanner!
+    var listObeacons: [String] = []
+    var sumOfDicts: [String:Double] = [:]
+    var averageTable: [String:[Double]] = [:]
+    var distance: Double!
+    var domainMax: Double!
+    var domainMin: Double!
+    var txPower = -58.0
+    var sum = 0.0
+    
+    var beaconsSearched : [String] = []
+    
+    var beaconHardDict : [String : String] = [
+        "http://www.vineeth.com" : "Table1",
+        "http://www.revanth.com" : "Table2",
+    ]
+
     
     @IBOutlet weak var beaconTableView: UITableView!
-    
     //listOfBeacons
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        self.beaconScanner = BeaconScanner()
+        self.beaconScanner!.delegate = self
+        self.beaconScanner!.startScanning()
+        
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        <#code#>
+        return listObeacons.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        <#code#>
+        let tableViewCell = tableView.dequeueReusableCell(withIdentifier: "tables", for: indexPath)
+        tableViewCell.textLabel?.text = listObeacons[indexPath.row]
+        return tableViewCell
     }
-
     
+    
+
+    func didFindBeacon(beaconScanner: BeaconScanner, beaconInfo: BeaconInfo) {
+         NSLog("FIND: %@", beaconInfo.description)
+    }
+    
+    func didLoseBeacon(beaconScanner: BeaconScanner, beaconInfo: BeaconInfo) {
+        NSLog("LOST: %@", beaconInfo.description)
+    }
+    
+    func didUpdateBeacon(beaconScanner: BeaconScanner, beaconInfo: BeaconInfo) {
+        NSLog("UPDATE: %@", beaconInfo.description)
+    }
+    
+    func didObserveURLBeacon(beaconScanner: BeaconScanner, URL: NSURL, RSSI: Int) {
+        let distance = getDistance(rssi: RSSI, txPower: self.txPower)
+        if(distance >= 3.0){
+            return;
+        }
+        
+        let beaconString = URL.absoluteString!
+        if averageTable[beaconString] == nil {
+            averageTable[beaconString] = [distance]
+            sumOfDicts[beaconString] = 0.0
+        } else {
+            averageTable[beaconString]?.append(distance)
+        }
+        
+        
+        if distance < 0.3 {
+            
+            
+            if (beaconsSearched.contains(beaconString)){
+                //print("already there")
+            } else {
+                
+                print(beaconString)
+                let beaconActualString = beaconHardDict[beaconString]
+                if let beaconActualString = beaconActualString {
+                    listObeacons.append(beaconActualString)
+                    self.beaconTableView.reloadData()
+                }
+                
+                print(beaconActualString! + " found")
+                self.beaconsSearched.append(beaconString)
+                
+            }
+        }
+        print("real distance is \(distance)")
+        if(averageTable[beaconString]!.count >= 5){
+            sumOfDicts[beaconString]! -=  averageTable[beaconString]![averageTable[beaconString]!.count - 5]
+        }
+        averageTable[beaconString]!.append(distance)
+        sumOfDicts[beaconString]! += distance
+        print(sumOfDicts[beaconString]!)
+        
+        if(averageTable[beaconString]!.count>=6){
+            print("URL SEEN: \(URL), RSSI: \(RSSI), Distance: \(sumOfDicts[beaconString]! / 5)")
+        }
+
+
+        
+    }
+    
+    func getDistance(rssi: Int, txPower: Double) -> Double {
+        if (rssi == 0) {
+            return -1.0; // if we cannot determine accuracy, return -1.
+        }
+        
+        let ratio = (Double(rssi))/txPower;
+        if (ratio < 1.0) {
+            return Double(pow(ratio,10));
+        }
+        else {
+            let accuracy =  (0.89976)*pow(ratio,7.7095) + 0.111;
+            return accuracy;
+        }
+    }
     /*
     // MARK: - Navigation
 
