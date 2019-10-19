@@ -1,0 +1,45 @@
+.MenuItem {
+    width: 100%;
+    background-color: white;
+    height: 15vh;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.MenuLeft {
+    height: 15vh;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.MenuRight {
+    height: 15vh;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.increment {
+    border-width: 0;
+    font-size: 3vw;
+    font-weight: 300;
+    padding: 0;
+    height: 7vh;
+    color: white;
+    margin-left: .5vw;
+    margin-right: .5vw;
+    background-color: #8E2DE2;
+    border-radius: 5px;
+}
+
+.increment:hover {
+    cursor: pointer;
+    background-color: rgb(242, 228, 255);
+}
