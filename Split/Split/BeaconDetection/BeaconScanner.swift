@@ -20,7 +20,7 @@ import CoreBluetooth
 /// Implement this to receive notifications about beacons.
 protocol BeaconScannerDelegate {
     func didFindBeacon(beaconScanner: BeaconScanner, beaconInfo: BeaconInfo)
-    func didLoseBeacon(beaconScanner: BeaconScanner, beaconInfo: BeaconInfo)
+    func didLoseBeacon(beaconScanner: BeaconScanner, URL: NSURL, beaconInfo: BeaconInfo)
     func didUpdateBeacon(beaconScanner: BeaconScanner, beaconInfo: BeaconInfo)
     func didObserveURLBeacon(beaconScanner: BeaconScanner, URL: NSURL, RSSI: Int)
 }
@@ -139,7 +139,16 @@ class BeaconScanner: NSObject, CBCentralManagerDelegate {
                                 if let
                                     beaconCache = self.seenEddystoneCache[cacheKey],
                                     let lostBeaconInfo = beaconCache["beaconInfo"] as? BeaconInfo {
-                                    self.delegate?.didLoseBeacon(beaconScanner: self, beaconInfo: lostBeaconInfo)
+                                    
+                                    if eft == BeaconInfo.EddystoneFrameType.URLFrameType {
+                                        let serviceUUID = CBUUID(string: "FEAA")
+                                        
+                                        if let beaconServiceData = serviceData[serviceUUID] as? NSData,
+                                            let URL = BeaconInfo.parseURLFromFrame(frameData: beaconServiceData) {
+                                            self.delegate?.didLoseBeacon(beaconScanner: self, URL: URL, beaconInfo: lostBeaconInfo)
+                                        }
+                                    }
+
                                     self.seenEddystoneCache.removeValue(
                                         forKey: beaconInfo.beaconID.description)
                                 }

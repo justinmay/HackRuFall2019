@@ -56,7 +56,17 @@ class BeaconViewController: UIViewController, UITableViewDelegate, UITableViewDa
          NSLog("FIND: %@", beaconInfo.description)
     }
     
-    func didLoseBeacon(beaconScanner: BeaconScanner, beaconInfo: BeaconInfo) {
+    func didLoseBeacon(beaconScanner: BeaconScanner, URL: NSURL, beaconInfo: BeaconInfo) {
+        let beaconString = URL.absoluteString!
+        let beaconActualString = beaconHardDict[beaconString]
+        if let beaconActualString = beaconActualString,
+           let index = listObeacons.firstIndex(of: beaconActualString) {
+            listObeacons.remove(at: index)
+            DispatchQueue.main.async {
+                self.beaconTableView.reloadData()
+            }
+        }
+        print("Lost " + URL.absoluteString!)
         NSLog("LOST: %@", beaconInfo.description)
     }
     
@@ -66,11 +76,20 @@ class BeaconViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     func didObserveURLBeacon(beaconScanner: BeaconScanner, URL: NSURL, RSSI: Int) {
         let distance = getDistance(rssi: RSSI, txPower: self.txPower)
+        let beaconString = URL.absoluteString!
+        
         if(distance >= 3.0){
+            print(beaconString)
+//            let beaconActualString = beaconHardDict[beaconString]
+//            if let beaconActualString = beaconActualString {
+//
+//                if(listObeacons.contains(beaconActualString)) {
+//                    listObeacons.remove(at: listObeacons.firstIndex(of: beaconActualString)!)
+//                }
+//            }
             return;
         }
         
-        let beaconString = URL.absoluteString!
         if averageTable[beaconString] == nil {
             averageTable[beaconString] = [distance]
             sumOfDicts[beaconString] = 0.0
@@ -90,7 +109,9 @@ class BeaconViewController: UIViewController, UITableViewDelegate, UITableViewDa
                 let beaconActualString = beaconHardDict[beaconString]
                 if let beaconActualString = beaconActualString {
                     listObeacons.append(beaconActualString)
-                    self.beaconTableView.reloadData()
+                    DispatchQueue.main.async {
+                        self.beaconTableView.reloadData()
+                    }
                 }
                 
                 print(beaconActualString! + " found")
