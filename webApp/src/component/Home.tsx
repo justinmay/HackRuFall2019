@@ -1,6 +1,7 @@
 import React from 'react'; 
 import Nav from './NavBar';
 import Tables from './Tables';
+import TableView from './TableView';
 import '../stylesheets/Home.css';
 
 type HomeState = {
@@ -16,6 +17,7 @@ class Home extends React.Component<HomeProps,HomeState>{
                 <Nav/>
                 <div className="view">
                     <Tables/>
+                    <TableView/>
                 </div>
             </div>
         )

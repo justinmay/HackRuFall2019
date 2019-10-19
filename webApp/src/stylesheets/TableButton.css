@@ -1,0 +1,16 @@
+.button {
+    padding: 10px;
+    font-family: 'Open Sans', sans-serif;
+    background-color: transparent;
+    font-weight: bold;
+    border-radius: 5px;
+    border-color: #4A00E0;
+    color: #4A00E0;
+    margin-bottom: 15px;
+}
+
+.button:hover {
+    background-color: #4A00E0;
+    color: white;
+    cursor: pointer;
+}
