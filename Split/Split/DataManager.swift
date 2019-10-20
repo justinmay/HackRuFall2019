@@ -72,14 +72,14 @@ class DataManager {
                do {
                    let decoder = JSONDecoder()
                    peopleData = try decoder.decode(PeopleInTable.self, from: data)
+                    completionBlock?(peopleData)
                    
                } catch let err {
                    print("Err", err)
             }
 
         }.resume()
-                
-        completionBlock?(peopleData)
+        
     }
     
     func getMenuItems(completionBlock: ((menuItems?) -> ())?) {
@@ -93,14 +93,14 @@ class DataManager {
                do {
                    let decoder = JSONDecoder()
                    menu = try decoder.decode(menuItems.self, from: data)
-                   
+                   completionBlock?(menu)
+
                } catch let err {
                    print("Err", err)
             }
 
         }.resume()
         
-        completionBlock?(menu)
     }
     
     

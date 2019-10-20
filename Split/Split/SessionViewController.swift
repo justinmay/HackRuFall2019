@@ -30,26 +30,28 @@ class SessionViewController: UIViewController, UITableViewDelegate, UITableViewD
         navMenuButton.layer.cornerRadius = 15
         
         DataManager.dataManager.getPeopleInTable(table: tableId!, completionBlock: {(people) in
-            self.partyPeople = people
-            self.partyTableView.reloadData()
+            DispatchQueue.main.async { [weak self] in
+                self?.partyPeople = people
+                self?.partyTableView.reloadData()
+            }
         })
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if let peeps = partyPeople {
-                return peeps.people.count
+            print("returning correctly")
+            return peeps.people.count
         }
         return 0
 
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if let peeps = partyPeople {
-            let tableViewCell = partyTableView.dequeueReusableCell(withIdentifier: "tables", for: indexPath)
-            tableViewCell.textLabel?.text = peeps.people[indexPath.row]
-            return tableViewCell
-        }
-        return UITableViewCell()
+        guard let peeps = partyPeople else { return UITableViewCell() }
+
+        let tableViewCell = partyTableView.dequeueReusableCell(withIdentifier: "people", for: indexPath)
+        tableViewCell.textLabel?.text = peeps.people[indexPath.row]
+        return tableViewCell
     }
     
     /*
