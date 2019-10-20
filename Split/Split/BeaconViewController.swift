@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import StitchCore
 
 class BeaconViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, BeaconScannerDelegate {
     

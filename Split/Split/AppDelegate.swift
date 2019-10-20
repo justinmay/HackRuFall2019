@@ -7,14 +7,24 @@
 //
 
 import UIKit
+import StitchCore
+import StitchCoreRemoteMongoDBService
+import StitchRemoteMongoDBService
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        do {
+            let _ = try Stitch.initializeDefaultAppClient(
+                withClientAppID: "YOUR-APP-ID"
+            )
+        } catch {
+            print("Failed to initialize MongoDB Stitch iOS SDK: \(error)")
+        }
+
         // Override point for customization after application launch.
         return true
     }
