@@ -19,12 +19,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         do {
             let _ = try Stitch.initializeDefaultAppClient(
-                withClientAppID: "YOUR-APP-ID"
+                withClientAppID: "split-qzxcm"
             )
         } catch {
             print("Failed to initialize MongoDB Stitch iOS SDK: \(error)")
         }
-
+        print("initialized mongo client")
         // Override point for customization after application launch.
         return true
     }
