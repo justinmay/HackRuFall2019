@@ -24,7 +24,7 @@ struct PeopleInTable: Codable {
 class DataManager {
     
     static let dataManager = DataManager()
-    let baseUrl: String = "https://3e3f4486.ngrok.io"
+    let baseUrl: String = "https://b8c04993.ngrok.io"
     
     func debugOutput(data: Data?, response: URLResponse?, error: Error?) {
         guard let data = data,
@@ -103,6 +103,27 @@ class DataManager {
         
     }
     
+    
+    func getTableReceipt(tableId: Int, completionBlock: ((menuItems?) -> ())?) {
+        
+        guard let url = URL(string:
+            "\(baseUrl)/restaurants/1/tables/\(tableId)/receipt") else { return }
+        var menu: menuItems?
+        
+        URLSession.shared.dataTask(with: url) { (data, response, error) in
+            self.debugOutput(data: data, response: response, error: error)
+            guard let data = data else { return }
+            do {
+                let decoder = JSONDecoder()
+                menu = try decoder.decode(menuItems.self, from: data)
+                completionBlock?(menu)
+                
+            } catch let err {
+                print("Err", err)
+            }
+            
+            }.resume()
+    }
     
 }
 

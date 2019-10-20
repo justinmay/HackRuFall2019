@@ -15,7 +15,7 @@ class SessionViewController: UIViewController, UITableViewDelegate, UITableViewD
 
     @IBOutlet weak var navMenuButton: UIButton!
     var tableName : String!
-    var tableId : String!
+    var tableId : Int!
     
     @IBOutlet weak var partyLabel: UILabel!
     @IBOutlet weak var partyTableView: UITableView!
@@ -23,17 +23,27 @@ class SessionViewController: UIViewController, UITableViewDelegate, UITableViewD
     var partyPeople : PeopleInTable?
     
     private lazy var stitchClient = Stitch.defaultAppClient!
-    private var mongoClient: RemoteMongoClient?
+    public var mongoClient: RemoteMongoClient?
     private var tablesCollection: RemoteMongoCollection<Document>?
+    private var sessionsCollection: RemoteMongoCollection<Document>?
     private var peopleTableWatcher: PeopleTableCollectionWatcher?
+    private var sessionTableWatcher: SessionTableCollectionWatcher?
     
     func reloadData() {
-        DataManager.dataManager.getPeopleInTable(table: tableId!, completionBlock: {(people) in
+        print("From Tables Watcher")
+        DataManager.dataManager.getPeopleInTable(table: "\(tableId!)", completionBlock: {(people) in
             DispatchQueue.main.async { [weak self] in
                 self?.partyPeople = people
                 self?.partyTableView.reloadData()
             }
         })
+    }
+    
+    func goToSelectItemScreen(){
+        DispatchQueue.main.async {
+            print("From Sessions Watcher: Going To Next Screen")
+            self.performSegue(withIdentifier: "selectSegue", sender: self)
+        }
     }
     
     override func viewDidLoad() {
@@ -66,6 +76,16 @@ class SessionViewController: UIViewController, UITableViewDelegate, UITableViewD
                 print("\(error) People table watcher failed")
             }
             
+            do {
+                self.sessionsCollection = self.mongoClient?.db("resdb").collection("sessions")
+                
+                self.sessionTableWatcher = SessionTableCollectionWatcher()
+                
+                try self.sessionTableWatcher?.watch(collection: self.sessionsCollection, tableId: self.tableId!,funcToCall: self.goToSelectItemScreen)
+            } catch {
+                print("\(error) Session table watcher failed")
+            }
+            
 //            let query: Document = [:]
 //            let sort: Document = [:]
 //            self.tablesCollection?.insertOne(["a": 5] as Document) { doc in
@@ -84,7 +104,7 @@ class SessionViewController: UIViewController, UITableViewDelegate, UITableViewD
         navMenuButton.clipsToBounds = true
         navMenuButton.layer.cornerRadius = 15
         
-        DataManager.dataManager.getPeopleInTable(table: tableId!, completionBlock: {(people) in
+        DataManager.dataManager.getPeopleInTable(table: "\(tableId!)", completionBlock: {(people) in
             DispatchQueue.main.async { [weak self] in
                 self?.partyPeople = people
                 self?.partyTableView.reloadData()
@@ -108,15 +128,19 @@ class SessionViewController: UIViewController, UITableViewDelegate, UITableViewD
         return tableViewCell
     }
     
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+        if segue.identifier == "selectSegue" {
+            let destination = segue.destination as? SelectionViewController
+            guard let selectionViewController = destination else {return}
+            selectionViewController.mongoClient = self.mongoClient
+            selectionViewController.tableId = self.tableId
+        }
     }
-    */
+    
 
 }
 
