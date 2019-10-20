@@ -6,3 +6,15 @@
     display: flex;
     flex-direction: row;
 }
+
+.lottie {
+    position: absolute;
+    top: 8vh;
+    left: 0;
+    width: 100vw;
+    height: 95vh;
+}
+
+.lottie:hover{
+    cursor: pointer;
+}

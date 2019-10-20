@@ -14,6 +14,7 @@ type TableViewProps = {
     currentTableID: number,
     axios: any,
     url: string,
+    showStar(): void,
 }
 
 class TableView extends React.Component<TableViewProps,TableViewState>{
@@ -85,6 +86,7 @@ class TableView extends React.Component<TableViewProps,TableViewState>{
 
     /** CLEAR IT */
     clearIt() {
+        this.props.showStar();
         this.state.menus.forEach(menu => {
             if(menu.key === this.state.currentTableID) {
                 this.props.axios.post(`${this.props.url}/restaurants/1/tables/${this.state.currentTableID}/finish`, menu.items)

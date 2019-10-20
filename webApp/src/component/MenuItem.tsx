@@ -13,9 +13,7 @@ type MenuItemProps = {
 }
 
 class MenuItem extends React.Component<MenuItemProps,MenuItemState>{
-    constructor(props:MenuItemProps){
-        super(props)
-    }
+    
     render() {
         return(
             <div className="MenuItem">
