@@ -10,6 +10,8 @@
 		55537925F2BBE0DFDA5F7931 /* Pods_Split.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6578D2A2641D68068D300FB6 /* Pods_Split.framework */; };
 		9870DCAA235BED1F00C4C9D2 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9870DCA8235BED1F00C4C9D2 /* DataManager.swift */; };
 		9870DCAB235BED1F00C4C9D2 /* StichWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9870DCA9235BED1F00C4C9D2 /* StichWatcher.swift */; };
+		98835F89235C92BC00C10A81 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98835F88235C92BC00C10A81 /* MenuViewController.swift */; };
+		98835F8B235C942C00C10A81 /* MenuTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98835F8A235C942C00C10A81 /* MenuTableViewCell.swift */; };
 		A8686F2B235B907E00A07E32 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8686F2A235B907E00A07E32 /* AppDelegate.swift */; };
 		A8686F2D235B907E00A07E32 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8686F2C235B907E00A07E32 /* ViewController.swift */; };
 		A8686F30235B907E00A07E32 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A8686F2E235B907E00A07E32 /* Main.storyboard */; };
@@ -20,6 +22,9 @@
 		A8686F42235B98A900A07E32 /* DispatchTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8686F41235B98A900A07E32 /* DispatchTimer.swift */; };
 		A8686F44235B98E200A07E32 /* BeaconScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8686F43235B98E200A07E32 /* BeaconScanner.swift */; };
 		A8686F46235BA65A00A07E32 /* SessionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8686F45235BA65A00A07E32 /* SessionViewController.swift */; };
+		A8AA20D6235C1EA1004375B9 /* SelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8AA20D5235C1EA1004375B9 /* SelectionViewController.swift */; };
+		A8AA20D8235C32BA004375B9 /* SelectionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8AA20D7235C32BA004375B9 /* SelectionTableViewCell.swift */; };
+		A8AA20DA235C49BF004375B9 /* ShowPayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8AA20D9235C49BF004375B9 /* ShowPayViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,6 +32,8 @@
 		7623F75D87166BF991D460AB /* Pods-Split.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Split.debug.xcconfig"; path = "Target Support Files/Pods-Split/Pods-Split.debug.xcconfig"; sourceTree = "<group>"; };
 		9870DCA8235BED1F00C4C9D2 /* DataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		9870DCA9235BED1F00C4C9D2 /* StichWatcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StichWatcher.swift; sourceTree = "<group>"; };
+		98835F88235C92BC00C10A81 /* MenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
+		98835F8A235C942C00C10A81 /* MenuTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuTableViewCell.swift; sourceTree = "<group>"; };
 		A8686F27235B907E00A07E32 /* Split.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Split.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A8686F2A235B907E00A07E32 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A8686F2C235B907E00A07E32 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -39,6 +46,9 @@
 		A8686F41235B98A900A07E32 /* DispatchTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DispatchTimer.swift; sourceTree = "<group>"; };
 		A8686F43235B98E200A07E32 /* BeaconScanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeaconScanner.swift; sourceTree = "<group>"; };
 		A8686F45235BA65A00A07E32 /* SessionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionViewController.swift; sourceTree = "<group>"; };
+		A8AA20D5235C1EA1004375B9 /* SelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionViewController.swift; sourceTree = "<group>"; };
+		A8AA20D7235C32BA004375B9 /* SelectionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionTableViewCell.swift; sourceTree = "<group>"; };
+		A8AA20D9235C49BF004375B9 /* ShowPayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowPayViewController.swift; sourceTree = "<group>"; };
 		EFBE1F030D994F97A21970B9 /* Pods-Split.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Split.release.xcconfig"; path = "Target Support Files/Pods-Split/Pods-Split.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -79,6 +89,15 @@
 			path = "Data Manager";
 			sourceTree = "<group>";
 		};
+		98835F8C235C943300C10A81 /* MenuTableView */ = {
+			isa = PBXGroup;
+			children = (
+				98835F8A235C942C00C10A81 /* MenuTableViewCell.swift */,
+				98835F88235C92BC00C10A81 /* MenuViewController.swift */,
+			);
+			path = MenuTableView;
+			sourceTree = "<group>";
+		};
 		A8686F1E235B907E00A07E32 = {
 			isa = PBXGroup;
 			children = (
@@ -105,6 +124,9 @@
 				9870DCA7235BED1F00C4C9D2 /* Data Manager */,
 				A8686F3C235B934400A07E32 /* BeaconViewController.swift */,
 				9814A077235BE9F000CBA313 /* SessionTableView */,
+				A8AA20D0235C1E10004375B9 /* SelectionTableView */,
+				A8AA20D9235C49BF004375B9 /* ShowPayViewController.swift */,
+				98835F8C235C943300C10A81 /* MenuTableView */,
 				A8686F40235B984C00A07E32 /* BeaconDetection */,
 				A8686F2E235B907E00A07E32 /* Main.storyboard */,
 				A8686F31235B907F00A07E32 /* Assets.xcassets */,
@@ -122,6 +144,15 @@
 				A8686F43235B98E200A07E32 /* BeaconScanner.swift */,
 			);
 			path = BeaconDetection;
+			sourceTree = "<group>";
+		};
+		A8AA20D0235C1E10004375B9 /* SelectionTableView */ = {
+			isa = PBXGroup;
+			children = (
+				A8AA20D5235C1EA1004375B9 /* SelectionViewController.swift */,
+				A8AA20D7235C32BA004375B9 /* SelectionTableViewCell.swift */,
+			);
+			path = SelectionTableView;
 			sourceTree = "<group>";
 		};
 		DF06027BF9859C900197567F /* Pods */ = {
@@ -250,9 +281,14 @@
 			files = (
 				A8686F42235B98A900A07E32 /* DispatchTimer.swift in Sources */,
 				A8686F2D235B907E00A07E32 /* ViewController.swift in Sources */,
+				98835F8B235C942C00C10A81 /* MenuTableViewCell.swift in Sources */,
 				A8686F3F235B983000A07E32 /* Eddystone.swift in Sources */,
+				A8AA20D8235C32BA004375B9 /* SelectionTableViewCell.swift in Sources */,
+				A8AA20DA235C49BF004375B9 /* ShowPayViewController.swift in Sources */,
 				A8686F3D235B934400A07E32 /* BeaconViewController.swift in Sources */,
 				A8686F44235B98E200A07E32 /* BeaconScanner.swift in Sources */,
+				98835F89235C92BC00C10A81 /* MenuViewController.swift in Sources */,
+				A8AA20D6235C1EA1004375B9 /* SelectionViewController.swift in Sources */,
 				9870DCAB235BED1F00C4C9D2 /* StichWatcher.swift in Sources */,
 				A8686F46235BA65A00A07E32 /* SessionViewController.swift in Sources */,
 				9870DCAA235BED1F00C4C9D2 /* DataManager.swift in Sources */,

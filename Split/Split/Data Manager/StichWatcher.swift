@@ -33,7 +33,8 @@ class MyCustomDelegate<T>: ChangeStreamDelegate
     }
         
     func didReceive(event: ChangeEvent<T>) {
-        print("Inside did receive")
+        print("Inside did receive, printing full Document:")
+        print(event.fullDocument)
         guard let funcToCall = funcToCall else { return }
         funcToCall()
     }
@@ -56,4 +57,49 @@ class PeopleTableCollectionWatcher {
         print("Watcher error: \(error)")
     }
    }
+}
+
+class SessionTableCollectionWatcher {
+    var changeStreamSession: ChangeStreamSession<Document>?
+    
+    func watch(collection: RemoteMongoCollection<Document>?, tableId: Int, funcToCall: @escaping (() -> Void)) throws {
+        // Watch the collection for any changes. As long as the changeStreamSession
+        // is alive, it will continue to send events to the delegate.
+        print("session watch initialized")
+        guard let collection = collection else {
+            print("session collection dont exist")
+            return
+        }
+        do {
+            changeStreamSession = try collection.watch(
+                matchFilter: ["fullDocument.tableId": tableId,
+                              "fullDocument.restaurantId": 1] as Document,
+                delegate: MyCustomDelegate<Document>.init(funcToCall: funcToCall))
+        } catch {
+            print("Session Watcher error: \(error)")
+        }
+    }
+}
+
+
+class LedgerTableCollectionWatcher {
+    var changeStreamSession: ChangeStreamSession<Document>?
+    
+    func watch(collection: RemoteMongoCollection<Document>?, tableId: Int, funcToCall: @escaping (() -> Void)) throws {
+        // Watch the collection for any changes. As long as the changeStreamSession
+        // is alive, it will continue to send events to the delegate.
+        print("Ledger watch initialized")
+        guard let collection = collection else {
+            print("Ledger collection dont exist")
+            return
+        }
+        do {
+            changeStreamSession = try collection.watch(
+               // matchFilter: ["fullDocument.tableId": tableId,
+                //              "fullDocument.restaurantId": 1] as Document,
+                delegate: MyCustomDelegate<Document>.init(funcToCall: funcToCall))
+        } catch {
+            print("Ledger Watcher error: \(error)")
+        }
+    }
 }

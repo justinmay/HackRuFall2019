@@ -13,9 +13,10 @@ import StitchRemoteMongoDBService
 
 class SessionViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
+    @IBOutlet weak var cardView: UIView!
     @IBOutlet weak var navMenuButton: UIButton!
     var tableName : String!
-    var tableId : String!
+    var tableId : Int!
     
     @IBOutlet weak var partyLabel: UILabel!
     @IBOutlet weak var partyTableView: UITableView!
@@ -23,17 +24,27 @@ class SessionViewController: UIViewController, UITableViewDelegate, UITableViewD
     var partyPeople : PeopleInTable?
     
     private lazy var stitchClient = Stitch.defaultAppClient!
-    private var mongoClient: RemoteMongoClient?
+    public var mongoClient: RemoteMongoClient?
     private var tablesCollection: RemoteMongoCollection<Document>?
+    private var sessionsCollection: RemoteMongoCollection<Document>?
     private var peopleTableWatcher: PeopleTableCollectionWatcher?
+    private var sessionTableWatcher: SessionTableCollectionWatcher?
     
     func reloadData() {
-        DataManager.dataManager.getPeopleInTable(table: tableId!, completionBlock: {(people) in
+        print("From Tables Watcher")
+        DataManager.dataManager.getPeopleInTable(table: "\(tableId!)", completionBlock: {(people) in
             DispatchQueue.main.async { [weak self] in
                 self?.partyPeople = people
                 self?.partyTableView.reloadData()
             }
         })
+    }
+    
+    func goToSelectItemScreen(){
+        DispatchQueue.main.async {
+            print("From Sessions Watcher: Going To Next Screen")
+            self.performSegue(withIdentifier: "selectSegue", sender: self)
+        }
     }
     
     override func viewDidLoad() {
@@ -66,6 +77,16 @@ class SessionViewController: UIViewController, UITableViewDelegate, UITableViewD
                 print("\(error) People table watcher failed")
             }
             
+            do {
+                self.sessionsCollection = self.mongoClient?.db("resdb").collection("sessions")
+                
+                self.sessionTableWatcher = SessionTableCollectionWatcher()
+                
+                try self.sessionTableWatcher?.watch(collection: self.sessionsCollection, tableId: self.tableId!,funcToCall: self.goToSelectItemScreen)
+            } catch {
+                print("\(error) Session table watcher failed")
+            }
+            
 //            let query: Document = [:]
 //            let sort: Document = [:]
 //            self.tablesCollection?.insertOne(["a": 5] as Document) { doc in
@@ -75,16 +96,20 @@ class SessionViewController: UIViewController, UITableViewDelegate, UITableViewD
 //                print("doc: \(doc)")
 //            }
         }
-            
         
+        self.navMenuButton.titleLabel?.font = UIFont(name: "Avenir-Heavy", size: 18)
+
         self.title = "Justin's Kitchen - \(tableName!)"
         self.partyTableView.delegate = self
         self.partyTableView.dataSource = self
         
+        self.cardView.layer.cornerRadius = 20
+        self.cardView.clipsToBounds = true
+        
         navMenuButton.clipsToBounds = true
         navMenuButton.layer.cornerRadius = 15
         
-        DataManager.dataManager.getPeopleInTable(table: tableId!, completionBlock: {(people) in
+        DataManager.dataManager.getPeopleInTable(table: "\(tableId!)", completionBlock: {(people) in
             DispatchQueue.main.async { [weak self] in
                 self?.partyPeople = people
                 self?.partyTableView.reloadData()
@@ -100,35 +125,30 @@ class SessionViewController: UIViewController, UITableViewDelegate, UITableViewD
 
     }
     
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 70
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let peeps = partyPeople else { return UITableViewCell() }
 
         let tableViewCell = partyTableView.dequeueReusableCell(withIdentifier: "people", for: indexPath)
         tableViewCell.textLabel?.text = peeps.people[indexPath.row]
+        tableViewCell.textLabel?.font = UIFont(name: "Avenir-Heavy", size: 18)!
         return tableViewCell
     }
     
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+        if segue.identifier == "selectSegue" {
+            let destination = segue.destination as? SelectionViewController
+            guard let selectionViewController = destination else {return}
+            selectionViewController.mongoClient = self.mongoClient
+            selectionViewController.tableId = self.tableId
+        }
     }
-    */
-
 }
 
-//extension UIViewController<T>: ChangeStreamDelegate
-//where T: Encodable, T: Decodable{
-//
-//    public typealias DocumentT = T
-//
-//
-//    func didReceive(event: ChangeEvent<T>) {
-//        // react to events
-//    }
-//
-//}
-//
