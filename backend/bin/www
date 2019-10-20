@@ -98,12 +98,25 @@ function onListening() {
     ? 'pipe ' + addr
     : 'port ' + addr.port;
   debug('Listening on ' + bind);
-  startAllPaidListener()
+  // startAllPaidListener()
 }
 
 function startAllPaidListener() {
   stream = db.get().collection('sessions').watch()
   stream.on('change', function(doc) {
     console.log(doc)
+    db.get().collection('tables').findOne({
+      restaurantId: doc.fullDocument.restaurantId,
+      _id: doc.fullDocument.tableId,
+      active: true
+    }, function(err, result) {
+      if (doc.fullDocument.paid == result.people.length) {
+        itemMap = doc.fullDocument.itemMap;
+        
+        db.get().collection('ledgers').insertOne({
+          receiver: doc.fullDocument.payer
+        }, function(err, result) { })
+      }
+    })
   })
 }

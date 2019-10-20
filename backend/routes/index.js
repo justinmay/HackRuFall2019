@@ -156,7 +156,7 @@ router.post("/restaurants/:restaurantId/tables/:tableId/pay", function(req, res,
   }) 
 });
 
-router.get("/restaurants/:restaurantId/tables/:tableId/finish", function(req, res, next) {
+router.post("/restaurants/:restaurantId/tables/:tableId/finish", function(req, res, next) {
   db.get().collection('tables').updateOne({
     _id: parseInt(req.params.tableId),
     restaurantId: parseInt(req.params.restaurantId)
