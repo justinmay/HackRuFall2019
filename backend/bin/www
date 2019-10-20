@@ -98,45 +98,47 @@ function onListening() {
     ? 'pipe ' + addr
     : 'port ' + addr.port;
   debug('Listening on ' + bind);
-  // startAllPaidListener()
+  startAllPaidListener()
 }
 
 function startAllPaidListener() {
-  stream = db.get().collection('sessions').watch()
+  stream = db.get().collection('sessions').watch({ fullDocument: 'updateLookup' })
   stream.on('change', function(doc) {
-    console.log(doc)
+    if (doc.fullDocument) {
     db.get().collection('tables').findOne({
       restaurantId: doc.fullDocument.restaurantId,
       _id: doc.fullDocument.tableId,
-      active: true
     }, function(err, result) {
       if (doc.fullDocument.paid == result.people.length) {
         itemMap = doc.fullDocument.itemMap;
+        console.log("ITEM MAP")
+        console.log(itemMap)
         countMap = {}
-        for (var person in Object.keys(itemMap)) {
-          for (var item in itemMap[person]) {
+        Object.keys(itemMap).forEach(function(person) {
+          itemMap[person].forEach(function(item){
             if (countMap[item.name] == null) {
               countMap[item.name] = 1
             } else {
               countMap[item.name] += 1
             }
-          }
-        }
+          })
+        })
 
         oweMap = {}
-        for (var person in Object.keys(itemMap)) {
+        Object.keys(itemMap).forEach(function(person) {
           oweMap[person] = 0
-          for (var item in itemMap[person]) {
+          itemMap[person].forEach(function(item) {
             oweMap[person] += (item.price / countMap[item.name])
-          }
-        }
+          })
+        })
         db.get().collection('ledgers').insertOne({
-          receiver: doc.fullDocument.payer,
           oweMap: oweMap,
           tableId: doc.fullDocument.tableId,
-          restaurantId: doc.fullDocument.restaurantId
+          restaurantId: doc.fullDocument.restaurantId,
+          sessionId: doc.fullDocument._id
         }, function(err, result) { })
       }
     })
+  }
   })
 }

@@ -11,6 +11,7 @@ import Foundation
 struct item: Codable {
     var name: String
     var price: Float
+    var image: String?
 }
 
 struct owed: Codable {
@@ -18,7 +19,11 @@ struct owed: Codable {
     var owed: Float
 }
 
-struct menuItems: Codable {
+struct MenuItems: Codable {
+    init(items: [item]) {
+        self.items = items
+    }
+    
     var items: [item]
 }
 
@@ -29,9 +34,10 @@ struct PeopleInTable: Codable {
 class DataManager {
     
     static let dataManager = DataManager()
-    let baseUrl: String = "https://b8c04993.ngrok.io"
+    let baseUrl: String = "https://7e21ab3b.ngrok.io"
     
-    func debugOutput(data: Data?, response: URLResponse?, error: Error?) {
+    func debugOutput(methodName: String? = nil,data: Data?, response: URLResponse?, error: Error?) {
+        print("\n\(methodName ?? "N/A")")
         guard let data = data,
             let response = response as? HTTPURLResponse,
             error == nil else {                                              // check for fundamental networking error
@@ -47,7 +53,7 @@ class DataManager {
 
         let responseString = String(data: data, encoding: .utf8)
         print("responseString = \(responseString ?? "No Response")")
-
+        print("\n")
     }
     
     // Verifying user entered a specific table
@@ -72,7 +78,7 @@ class DataManager {
         var peopleData: PeopleInTable?
         
         URLSession.shared.dataTask(with: url) { (data, response, error) in
-            self.debugOutput(data: data, response: response, error: error)
+            self.debugOutput(methodName: "getPeopleInTable: ", data: data, response: response, error: error)
             guard let data = data else { return }
                do {
                    let decoder = JSONDecoder()
@@ -87,17 +93,17 @@ class DataManager {
         
     }
     
-    func getMenuItems(completionBlock: ((menuItems?) -> ())?) {
+    func getMenuItems(completionBlock: ((MenuItems?) -> ())?) {
         
         guard let url = URL(string: "\(baseUrl)/restaurants/1/items") else { return }
-        var menu: menuItems?
+        var menu: MenuItems?
         
         URLSession.shared.dataTask(with: url) { (data, response, error) in
-            self.debugOutput(data: data, response: response, error: error)
+            self.debugOutput(methodName: "debug getMenuItems: ", data: data, response: response, error: error)
             guard let data = data else { return }
                do {
                    let decoder = JSONDecoder()
-                   menu = try decoder.decode(menuItems.self, from: data)
+                   menu = try decoder.decode(MenuItems.self, from: data)
                    completionBlock?(menu)
 
                } catch let err {
@@ -109,18 +115,18 @@ class DataManager {
     }
     
     
-    func getTableReceipt(tableId: Int, completionBlock: ((menuItems?) -> ())?) {
+    func getTableReceipt(tableId: Int, completionBlock: ((MenuItems?) -> ())?) {
         
         guard let url = URL(string:
             "\(baseUrl)/restaurants/1/tables/\(tableId)/receipt") else { return }
-        var menu: menuItems?
+        var menu: MenuItems?
         
         URLSession.shared.dataTask(with: url) { (data, response, error) in
-            self.debugOutput(data: data, response: response, error: error)
+            self.debugOutput(methodName: "debug getTableReceipts: ", data: data, response: response, error: error)
             guard let data = data else { return }
             do {
                 let decoder = JSONDecoder()
-                menu = try decoder.decode(menuItems.self, from: data)
+                menu = try decoder.decode(MenuItems.self, from: data)
                 completionBlock?(menu)
                 
             } catch let err {
@@ -142,14 +148,18 @@ class DataManager {
 
         let jsonEncoder = JSONEncoder()
         do {
-            let jsonData = try jsonEncoder.encode(menuItems)
+            let encoder = JSONEncoder()
+            let jsonData = try encoder.encode(menuItems)
+            let newMenuItems = MenuItems(items: menuItems)
             request.httpBody = jsonData
+            print("JSON Data: \(jsonData)")
+            print("Menu items: \(menuItems)")
         } catch {
             print("error during json encoding of menuItems")
         }
         
         URLSession.shared.dataTask(with: request) { data, response, error in
-        self.debugOutput(data: data, response: response, error: error)
+        self.debugOutput(methodName: "debug pay: ", data: data, response: response, error: error)
             if error != nil {
                 completionBlock?(error)
             } else {
@@ -166,7 +176,7 @@ class DataManager {
         var owedArr: [owed]?
         
         URLSession.shared.dataTask(with: url) { (data, response, error) in
-            self.debugOutput(data: data, response: response, error: error)
+            self.debugOutput(methodName: "debug getAmountOwed: ", data: data, response: response, error: error)
             guard let data = data else { return }
             do {
                 let decoder = JSONDecoder()

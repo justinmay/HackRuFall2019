@@ -77,7 +77,9 @@ router.post("/restaurants/:restaurantId/tables/:tableId/verify", function(req, r
           restaurantId: parseInt(req.params.restaurantId),
           tableId: parseInt(req.params.tableId),
           active: true,
-          paid: false
+          paid: 0,
+          items: [],
+          itemMap: {}
         }
       }, {
         upsert: true
@@ -118,7 +120,6 @@ router.post("/restaurants/:restaurantId/tables/:tableId/submit", function(req, r
   }, {
     $set: {
       items: dedupItems,
-      paid: true
     },
   }, function(err, result) {
     if (err) {
@@ -133,28 +134,37 @@ router.post("/restaurants/:restaurantId/tables/:tableId/submit", function(req, r
   })
 });
 
+router.get("/restaurants/:restaurantId/tables/:tableId/receipt", function(req, res, next) {
+  db.get().collection('sessions').findOne({
+    tableId: parseInt(req.params.tableId),
+    restaurantId: parseInt(req.params.restaurantId)
+  }, {
+    projection: {
+      items: 1
+    }
+  }, function(err, result) {
+    if (err) {
+      console.log(err)
+      res.json({status: "error"})
+    } else {
+      console.log(result)
+      res.json({status: "success", items: result.items})
+    }
+  })
+});
+
 router.post("/restaurants/:restaurantId/tables/:tableId/pay", function(req, res, next) {
-  var itemsToPay = req.body.pay
-  var isPayerStr = req.query.isPayer
+  var itemsToPay = req.body.items
   var username = req.query.username 
 
-
-  pushMap = {}
-  for (var i in itemsToPay) {
-    pushMap["itemMap." + username] = i
-  }
-
   var updateObj = {
-    $push: pushMap,
+    $set: {
+    },
     $inc: {
       paid: 1
     }
   }
-  if (isPayerStr) {
-    updateObj["$set"] = {
-      payer: username
-    }
-  }
+  updateObj["$set"]["itemMap."+username] = itemsToPay
 
   db.get().collection('sessions').updateOne({
     restaurantId: parseInt(req.params.restaurantId),
@@ -184,8 +194,9 @@ router.post("/restaurants/:restaurantId/tables/:tableId/finish", function(req, r
       res.json({status: "error"})
     } else {
       db.get().collection('sessions').updateOne({
-        _id: parseInt(req.params.tableId),
-        restaurantId: parseInt(req.params.restaurantId)
+        tableId: parseInt(req.params.tableId),
+        restaurantId: parseInt(req.params.restaurantId),
+        active: true
       }, {
         $set: {
           active: false
@@ -198,6 +209,27 @@ router.post("/restaurants/:restaurantId/tables/:tableId/finish", function(req, r
           res.json({status: "success"})
         }
       })
+    }
+  })
+});
+
+router.get("/restaurants/:restaurantId/tables/:tableId/ledger", function(req, res, next) {
+  db.get().collection('ledgers').findOne({
+    tableId: parseInt(req.params.tableId),
+    restaurantId: parseInt(req.params.restaurantId)
+  }, function(err, result) {
+    if (err) {
+      console.log(err)
+      res.json({status: "error"})
+    } else {
+      out = []
+      Object.keys(result.oweMap).forEach(function(key) {
+        out.push({
+          name: key,
+          owed: result.oweMap[key]
+        })
+      })
+      res.json(out)
     }
   })
 });
