@@ -13,6 +13,7 @@ type TableViewProps = {
     menus: Menu[],
     currentTableID: number,
     axios: any,
+    url: string,
 }
 
 class TableView extends React.Component<TableViewProps,TableViewState>{
@@ -72,7 +73,7 @@ class TableView extends React.Component<TableViewProps,TableViewState>{
     sendIt() {
         this.state.menus.forEach(menu => {
             if(menu.key === this.state.currentTableID) {
-                this.props.axios.post(`https://3e3f4486.ngrok.io/restaurants/1/tables/${this.state.currentTableID}/submit`, menu.items)
+                this.props.axios.post(`${this.props.url}/restaurants/1/tables/${this.state.currentTableID}/submit`, menu.items)
                 .then((response: any) => {
                     console.log(response);
                 }, (error: any) => {
@@ -86,7 +87,7 @@ class TableView extends React.Component<TableViewProps,TableViewState>{
     clearIt() {
         this.state.menus.forEach(menu => {
             if(menu.key === this.state.currentTableID) {
-                this.props.axios.post(`https://3e3f4486.ngrok.io/restaurants/1/tables/${this.state.currentTableID}/finish`, menu.items)
+                this.props.axios.post(`${this.props.url}/restaurants/1/tables/${this.state.currentTableID}/finish`, menu.items)
                 .then((response: any) => {
                     console.log(response);
                 }, (error: any) => {
@@ -104,17 +105,6 @@ class TableView extends React.Component<TableViewProps,TableViewState>{
                         <h3>
                             Table {this.state.currentTableID}
                         </h3>
-                        <h3>
-                            # of Patrons: {this.props.tables.map(table => {
-                                if (table.key === this.state.currentTableID) {
-                                    return table.numPeople
-                                }
-                                return false
-                            })}
-                        </h3>
-                        <h3>
-                            Total Time: 
-                        </h3>
                     </div>
                     <div style={{display:"flex",flexDirection:"row"}}>
                         <button className="checkout" onClick={() => this.sendIt()}>
@@ -131,7 +121,7 @@ class TableView extends React.Component<TableViewProps,TableViewState>{
                             return menu.items.map(item => {
                                 return <MenuItem
                                     name={item.name}
-                                    image=""
+                                    image={item.string}
                                     status=""
                                     quantity={item.quantity}
                                     updateQuantity={this.updateMenu}

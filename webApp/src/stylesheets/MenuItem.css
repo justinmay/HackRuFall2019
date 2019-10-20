@@ -28,6 +28,7 @@
 
 .increment {
     border-width: 0;
+    width: 3vw;
     font-size: 3vw;
     font-weight: 300;
     padding: 0;
