@@ -34,9 +34,15 @@ class BeaconViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.beaconTableView.layer.cornerRadius = 20
+        self.beaconTableView.clipsToBounds = true
+        
         self.beaconScanner = BeaconScanner()
         self.beaconScanner!.delegate = self
         self.beaconScanner!.startScanning()
+                
+        self.navigationController?.navigationBar.barTintColor = .white
         
     }
     
@@ -47,11 +53,16 @@ class BeaconViewController: UIViewController, UITableViewDelegate, UITableViewDa
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let tableViewCell = tableView.dequeueReusableCell(withIdentifier: "tables", for: indexPath)
         tableViewCell.textLabel?.text = listObeacons[indexPath.row]
+        tableViewCell.textLabel?.font = UIFont(name: "Avenir-Heavy", size: 30)
         return tableViewCell
     }
 
     func didFindBeacon(beaconScanner: BeaconScanner, beaconInfo: BeaconInfo) {
          NSLog("FIND: %@", beaconInfo.description)
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 100
     }
     
     func didLoseBeacon(beaconScanner: BeaconScanner, URL: NSURL, beaconInfo: BeaconInfo) {

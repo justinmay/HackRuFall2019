@@ -5,13 +5,14 @@ type TableButtonState = {
 }
 
 type TableButtonProps = {
-    name: string
+    name: string,
+    onClick(): void,
 }
 
 class Tables extends React.Component<TableButtonProps,TableButtonState>{
     render() {
         return(
-            <button className="button">
+            <button className="button" onClick={this.props.onClick}>
                 Table: {this.props.name}
             </button>
         )

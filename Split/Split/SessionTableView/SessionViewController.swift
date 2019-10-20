@@ -13,6 +13,7 @@ import StitchRemoteMongoDBService
 
 class SessionViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
+    @IBOutlet weak var cardView: UIView!
     @IBOutlet weak var navMenuButton: UIButton!
     var tableName : String!
     var tableId : Int!
@@ -85,6 +86,7 @@ class SessionViewController: UIViewController, UITableViewDelegate, UITableViewD
             } catch {
                 print("\(error) Session table watcher failed")
             }
+            self.navMenuButton.titleLabel?.font = UIFont(name: "Avenir-Heavy", size: 18)
             
 //            let query: Document = [:]
 //            let sort: Document = [:]
@@ -100,6 +102,9 @@ class SessionViewController: UIViewController, UITableViewDelegate, UITableViewD
         self.title = "Justin's Kitchen - \(tableName!)"
         self.partyTableView.delegate = self
         self.partyTableView.dataSource = self
+        
+        self.cardView.layer.cornerRadius = 20
+        self.cardView.clipsToBounds = true
         
         navMenuButton.clipsToBounds = true
         navMenuButton.layer.cornerRadius = 15
@@ -120,11 +125,16 @@ class SessionViewController: UIViewController, UITableViewDelegate, UITableViewD
 
     }
     
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 70
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let peeps = partyPeople else { return UITableViewCell() }
 
         let tableViewCell = partyTableView.dequeueReusableCell(withIdentifier: "people", for: indexPath)
         tableViewCell.textLabel?.text = peeps.people[indexPath.row]
+        tableViewCell.textLabel?.font = UIFont(name: "Avenir-Heavy", size: 18)!
         return tableViewCell
     }
     
