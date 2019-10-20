@@ -7,11 +7,12 @@
 //
 
 import UIKit
+import StitchCore
 
 class BeaconViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, BeaconScannerDelegate {
     
     var beaconScanner: BeaconScanner!
-    var listObeacons: [String] = ["Table0"]
+    var listObeacons: [String] = ["Table 0"]
     var sumOfDicts: [String:Double] = [:]
     var averageTable: [String:[Double]] = [:]
     var distance: Double!
@@ -23,8 +24,8 @@ class BeaconViewController: UIViewController, UITableViewDelegate, UITableViewDa
     var beaconsSearched : [String] = []
     
     var beaconHardDict : [String : String] = [
-        "http://www.vineeth.com" : "Table1",
-        "http://www.revanth.com" : "Table2",
+        "http://www.vineeth.com" : "Table 1",
+        "http://www.revanth.com" : "Table 2",
     ]
 
     
@@ -33,9 +34,15 @@ class BeaconViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.beaconTableView.layer.cornerRadius = 20
+        self.beaconTableView.clipsToBounds = true
+        
         self.beaconScanner = BeaconScanner()
         self.beaconScanner!.delegate = self
         self.beaconScanner!.startScanning()
+                
+        self.navigationController?.navigationBar.barTintColor = .white
         
     }
     
@@ -46,11 +53,16 @@ class BeaconViewController: UIViewController, UITableViewDelegate, UITableViewDa
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let tableViewCell = tableView.dequeueReusableCell(withIdentifier: "tables", for: indexPath)
         tableViewCell.textLabel?.text = listObeacons[indexPath.row]
+        tableViewCell.textLabel?.font = UIFont(name: "Avenir-Heavy", size: 30)
         return tableViewCell
     }
 
     func didFindBeacon(beaconScanner: BeaconScanner, beaconInfo: BeaconInfo) {
          NSLog("FIND: %@", beaconInfo.description)
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 100
     }
     
     func didLoseBeacon(beaconScanner: BeaconScanner, URL: NSURL, beaconInfo: BeaconInfo) {
@@ -96,7 +108,6 @@ class BeaconViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
         
         if distance < 0.3 {
-            
             
             if (beaconsSearched.contains(beaconString)){
                 //print("already there")
@@ -146,7 +157,17 @@ class BeaconViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        self.performSegue(withIdentifier: "selectTableSegue", sender: self)
+        let alert = UIAlertController(title: "Confirm Table Selection", message: "Are you sure you would like to join \(listObeacons[indexPath.row])", preferredStyle: UIAlertController.Style.alert)
+        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: "Confirm", style: UIAlertAction.Style.default, handler: {(alert: UIAlertAction!) in
+            
+            let username = UserDefaults.standard.string(forKey: "username")
+            DataManager.dataManager.verifyUser(username: username!, table: "\(indexPath.row + 1)")
+            
+            self.performSegue(withIdentifier: "selectTableSegue", sender: self)
+        }))
+        self.present(alert, animated: true, completion: nil)
+        
     }
     
     
@@ -155,11 +176,12 @@ class BeaconViewController: UIViewController, UITableViewDelegate, UITableViewDa
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "selectTableSegue" {
-            var selectedindex = beaconTableView.indexPathForSelectedRow?.row
+            let selectedindex = beaconTableView.indexPathForSelectedRow?.row
             guard let index = selectedindex else { return }
             let destination = segue.destination as? SessionViewController
             guard let sessionViewController = destination else { return }
             sessionViewController.tableName = listObeacons[index]
+            sessionViewController.tableId = "\(index + 1)"
         }
     }
 }
