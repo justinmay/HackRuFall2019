@@ -2,6 +2,9 @@ import React from 'react';
 import Nav from './NavBar';
 import Tables from './Tables';
 import TableView from './TableView';
+import Lottie from 'react-lottie';
+import animation from '../animation.json';
+import star from '../star.json';
 import '../stylesheets/Home.css';
 
 type HomeState = {
@@ -10,7 +13,8 @@ type HomeState = {
     menus: Menu[],
     currentTableID: number,
     showTable: boolean,
-    url: string
+    url: string,
+    showStar: boolean,
 }
 
 type HomeProps = {
@@ -45,9 +49,15 @@ class Home extends React.Component<HomeProps,HomeState>{
             menus: [],
             currentTableID: 1,
             showTable: false,
-            url: "https://7e21ab3b.ngrok.io"
+            url: "https://2ca69306.ngrok.io",
+            showStar: false,
         };
         this.setCurrentTableID = this.setCurrentTableID.bind(this);
+        this.showStar=this.showStar.bind(this);
+    }
+
+    showStar() {
+        this.setState({showStar: true})
     }
 
     /** Get table data from the Backend */
@@ -85,7 +95,6 @@ class Home extends React.Component<HomeProps,HomeState>{
             // handle success
             const items: Item[] = [];
             response.data.items.forEach((item: any) => {
-                console.log(item)
                 const tempItem: Item = {
                     name: item.name,
                     price: item.price,
@@ -145,8 +154,30 @@ class Home extends React.Component<HomeProps,HomeState>{
 
 
     render() {
+        const defaultOptions = {
+            loop: true,
+            autoplay: true, 
+            animationData: animation,
+            rendererSettings: {
+              preserveAspectRatio: 'xMidYMid slice'
+            }
+          };
+
+          const starOptions = {
+            loop: true,
+            autoplay: true, 
+            animationData: star,
+            rendererSettings: {
+              preserveAspectRatio: 'xMidYMid slice'
+            }
+          };
+
         return(
             <div>
+                <div style={{position:"absolute", left:0,bottom:0,width:"17vw"}}>
+                    <Lottie options={defaultOptions}
+                    />
+                </div>
                 <Nav/>
                 <div className="view">
                     <Tables 
@@ -155,6 +186,7 @@ class Home extends React.Component<HomeProps,HomeState>{
                     />
                     {
                         this.state.showTable ? <TableView 
+                        showStar={this.showStar}
                         menus={this.state.menus} 
                         tables={this.state.tables}
                         currentTableID={this.state.currentTableID}
@@ -164,6 +196,13 @@ class Home extends React.Component<HomeProps,HomeState>{
                     }
                     
                 </div>
+                {
+                this.state.showStar ? 
+                <button className="lottie" onClick={() => this.setState({showStar: false})}>
+                    <Lottie options={starOptions}
+                    />
+                </button>: null
+            }
             </div>
         )
     }
