@@ -136,6 +136,10 @@
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="uS2-aO-bIX">
                                         <rect key="frame" x="0.0" y="74" width="374" height="320"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <connections>
+                                            <outlet property="dataSource" destination="tgf-kE-xhb" id="UrB-lP-pCM"/>
+                                            <outlet property="delegate" destination="tgf-kE-xhb" id="kQb-ge-gqW"/>
+                                        </connections>
                                     </tableView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your Party" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SNz-dr-dXl">
                                         <rect key="frame" x="27" y="23" width="301" height="28"/>
@@ -189,6 +193,7 @@
                     </view>
                     <connections>
                         <outlet property="partyLabel" destination="SNz-dr-dXl" id="GV7-Wy-DSo"/>
+                        <outlet property="partyTableView" destination="uS2-aO-bIX" id="0MB-ow-dFs"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5G8-d6-TNd" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
