@@ -1,1 +1,4 @@
 backend/node_modules
+Split/Pods/*
+Split/Pods/mongo_embedded/iPhoneOS/Frameworks/mongo_embedded.framework.dSYM/Contents/Resources/DWARF/libmongo_embedded.dylib
+Split/Pods/mongo_embedded/iPhoneOS/Frameworks/mongo_embedded.framework/mongo_embedded
