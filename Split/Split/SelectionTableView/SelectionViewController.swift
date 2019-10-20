@@ -16,6 +16,7 @@ class SelectionViewController: UIViewController, UITableViewDelegate, UITableVie
     
     var selectedItems : [item] = []
     
+    @IBOutlet weak var selectButton: UIButton!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var selectionTableView: UITableView!
     
@@ -28,12 +29,22 @@ class SelectionViewController: UIViewController, UITableViewDelegate, UITableVie
     
     func goToPayScreen(){
         print("all payments received: going to Pay screen")
-        self.activityIndicator.stopAnimating()
-        self.performSegue(withIdentifier: "showPaymentSegue", sender: self)
+        DispatchQueue.main.async {
+            if(!UserDefaults.standard.bool(forKey: "selectTappedYet")) {
+                self.activityIndicator.stopAnimating()
+                UserDefaults.standard.set(true, forKey: "selectTappedYet")
+                self.performSegue(withIdentifier: "showPaymentSegue", sender: self)
+            }
+        }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+                
+        UserDefaults.standard.set(false, forKey: "selectTappedYet")
+        self.selectButton.layer.cornerRadius = 20
+        self.selectButton.clipsToBounds = true
+        
         self.selectionTableView.layer.cornerRadius = 20
         self.selectionTableView.clipsToBounds = true
         
@@ -66,6 +77,8 @@ class SelectionViewController: UIViewController, UITableViewDelegate, UITableVie
     
     
     @IBAction func selectButtonTapped(_ sender: UIButton) {
+        
+        
         let username = UserDefaults.standard.string(forKey: "username")
         activityIndicator.isHidden = false
         sender.isHidden = true
@@ -99,7 +112,13 @@ class SelectionViewController: UIViewController, UITableViewDelegate, UITableVie
         let item = receipt.items[indexPath.row]
         // tableViewCell.textLabel?.text = "\(item.name) - price: $\(item.price)"
         cell.itemNameLabel.text = item.name
-        cell.itemPriceLabel.text = "$\(item.price)"
+        
+        let formatter = NumberFormatter()
+        formatter.locale = Locale.current
+        formatter.numberStyle = .currency
+        if let formattedTipAmount = formatter.string(from: item.price as NSNumber) {
+            cell.itemPriceLabel.text = "\(formattedTipAmount)"
+        }
         
         return cell
     }

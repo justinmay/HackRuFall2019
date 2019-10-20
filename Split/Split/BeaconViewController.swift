@@ -12,7 +12,7 @@ import StitchCore
 class BeaconViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, BeaconScannerDelegate {
     
     var beaconScanner: BeaconScanner!
-    var listObeacons: [String] = ["Table 0"]
+    var listObeacons: [String] = []
     var sumOfDicts: [String:Double] = [:]
     var averageTable: [String:[Double]] = [:]
     var distance: Double!
@@ -27,6 +27,12 @@ class BeaconViewController: UIViewController, UITableViewDelegate, UITableViewDa
         "http://www.vineeth.com" : "Table 1",
         "http://www.revanth.com" : "Table 2",
     ]
+    
+    var tableMap : [String : Int] = [
+        "Table 0": 1,
+        "Table 1": 1,
+        "Table 2": 2,
+    ]
 
     
     @IBOutlet weak var beaconTableView: UITableView!
@@ -34,7 +40,6 @@ class BeaconViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         self.beaconTableView.layer.cornerRadius = 20
         self.beaconTableView.clipsToBounds = true
         
@@ -160,9 +165,11 @@ class BeaconViewController: UIViewController, UITableViewDelegate, UITableViewDa
         let alert = UIAlertController(title: "Confirm Table Selection", message: "Are you sure you would like to join \(listObeacons[indexPath.row])", preferredStyle: UIAlertController.Style.alert)
         alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel, handler: nil))
         alert.addAction(UIAlertAction(title: "Confirm", style: UIAlertAction.Style.default, handler: {(alert: UIAlertAction!) in
-            
+            var currTable = self.tableMap[(self.listObeacons[indexPath.row])]
+            UserDefaults.standard.set(currTable, forKey: "tableId")
+
             let username = UserDefaults.standard.string(forKey: "username")
-            DataManager.dataManager.verifyUser(username: username!, table: "\(indexPath.row + 1)")
+            DataManager.dataManager.verifyUser(username: username!, table: "\(UserDefaults.standard.integer(forKey: "tableId"))")
             
             self.performSegue(withIdentifier: "selectTableSegue", sender: self)
         }))
@@ -181,8 +188,8 @@ class BeaconViewController: UIViewController, UITableViewDelegate, UITableViewDa
             let destination = segue.destination as? SessionViewController
             guard let sessionViewController = destination else { return }
             sessionViewController.tableName = listObeacons[index]
-            sessionViewController.tableId = (index + 1)
-            UserDefaults.standard.set(index+1, forKey: "tableId")
+            var currTable = tableMap[(self.listObeacons[index])]
+            UserDefaults.standard.set(currTable, forKey: "tableId")
         }
     }
 }

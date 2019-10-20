@@ -34,7 +34,7 @@ struct PeopleInTable: Codable {
 class DataManager {
     
     static let dataManager = DataManager()
-    let baseUrl: String = "https://7e21ab3b.ngrok.io"
+    let baseUrl: String = "https://2ca69306.ngrok.io"
     
     func debugOutput(methodName: String? = nil,data: Data?, response: URLResponse?, error: Error?) {
         print("\n\(methodName ?? "N/A")")
@@ -142,30 +142,32 @@ class DataManager {
         if let url = URL(string: "\(baseUrl)/restaurants/1/tables/\(tableId)/pay?username=\(username)") {
         
         var request = URLRequest(url: url)
-        request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.httpMethod = "POST"
         
 
-        let jsonEncoder = JSONEncoder()
         do {
             let encoder = JSONEncoder()
-            let jsonData = try encoder.encode(menuItems)
             let newMenuItems = MenuItems(items: menuItems)
+            let jsonData = try encoder.encode(newMenuItems)
             request.httpBody = jsonData
-            print("JSON Data: \(jsonData)")
-            print("Menu items: \(menuItems)")
+            URLSession.shared.dataTask(with: request) { data, response, error in
+            self.debugOutput(methodName: "debug pay: ", data: data, response: response, error: error)
+                if error != nil {
+                    completionBlock?(error)
+                } else {
+                    completionBlock?(nil)
+                }
+                
+            if let JSONString = String(data: jsonData, encoding: String.Encoding.utf8) {
+                print("JSON Data: \(JSONString)")
+                print("Menu items: \(menuItems)")
+            }
+
+            }.resume()
         } catch {
             print("error during json encoding of menuItems")
         }
-        
-        URLSession.shared.dataTask(with: request) { data, response, error in
-        self.debugOutput(methodName: "debug pay: ", data: data, response: response, error: error)
-            if error != nil {
-                completionBlock?(error)
-            } else {
-                completionBlock?(nil)
-            }
-        }.resume()
 
         }
     }

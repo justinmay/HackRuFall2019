@@ -16,7 +16,7 @@ class SessionViewController: UIViewController, UITableViewDelegate, UITableViewD
     @IBOutlet weak var cardView: UIView!
     @IBOutlet weak var navMenuButton: UIButton!
     var tableName : String!
-    var tableId : Int!
+    var tableId : Int = UserDefaults.standard.integer(forKey: "tableId")
     
     @IBOutlet weak var partyLabel: UILabel!
     @IBOutlet weak var partyTableView: UITableView!
@@ -32,7 +32,7 @@ class SessionViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     func reloadData() {
         print("From Tables Watcher")
-        DataManager.dataManager.getPeopleInTable(table: "\(tableId!)", completionBlock: {(people) in
+        DataManager.dataManager.getPeopleInTable(table: "\(tableId)", completionBlock: {(people) in
             DispatchQueue.main.async { [weak self] in
                 self?.partyPeople = people
                 self?.partyTableView.reloadData()
@@ -43,13 +43,17 @@ class SessionViewController: UIViewController, UITableViewDelegate, UITableViewD
     func goToSelectItemScreen(){
         DispatchQueue.main.async {
             print("From Sessions Watcher: Going To Next Screen")
-            self.performSegue(withIdentifier: "selectSegue", sender: self)
+            if(!UserDefaults.standard.bool(forKey: "goToSelection")) {
+                UserDefaults.standard.set(true, forKey: "goToSelection")
+                print("segue happening")
+                self.performSegue(withIdentifier: "selectSegue", sender: self)
+            }
         }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        UserDefaults.standard.set(false, forKey: "goToSelection")
         stitchClient.auth.login(withCredential: AnonymousCredential.init()) { result in
             switch result {
             case .success:
@@ -82,7 +86,7 @@ class SessionViewController: UIViewController, UITableViewDelegate, UITableViewD
                 
                 self.sessionTableWatcher = SessionTableCollectionWatcher()
                 
-                try self.sessionTableWatcher?.watch(collection: self.sessionsCollection, tableId: self.tableId!,funcToCall: self.goToSelectItemScreen)
+                try self.sessionTableWatcher?.watch(collection: self.sessionsCollection, tableId: self.tableId,funcToCall: self.goToSelectItemScreen)
             } catch {
                 print("\(error) Session table watcher failed")
             }
@@ -109,7 +113,7 @@ class SessionViewController: UIViewController, UITableViewDelegate, UITableViewD
         navMenuButton.clipsToBounds = true
         navMenuButton.layer.cornerRadius = 15
         
-        DataManager.dataManager.getPeopleInTable(table: "\(tableId!)", completionBlock: {(people) in
+        DataManager.dataManager.getPeopleInTable(table: "\(tableId)", completionBlock: {(people) in
             DispatchQueue.main.async { [weak self] in
                 self?.partyPeople = people
                 self?.partyTableView.reloadData()

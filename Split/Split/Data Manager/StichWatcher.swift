@@ -72,7 +72,9 @@ class SessionTableCollectionWatcher {
         }
         do {
             changeStreamSession = try collection.watch(
-                matchFilter: ["fullDocument.tableId": tableId,
+                matchFilter: [
+                    "operationType": "update",
+                                "fullDocument.tableId": tableId,
                               "fullDocument.restaurantId": 1] as Document,
                 delegate: MyCustomDelegate<Document>.init(funcToCall: funcToCall))
         } catch {

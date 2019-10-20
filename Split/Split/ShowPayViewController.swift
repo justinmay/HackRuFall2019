@@ -23,17 +23,18 @@ class ShowPayViewController: UIViewController {
             guard let owedArray = owedArray else { return }
             for currItem in owedArray{
                 if(currItem.name == self.username) {
+                    print("Curr Item price: \(currItem.owed)")
                     let formatter = NumberFormatter()
                     formatter.locale = Locale.current
                     formatter.numberStyle = .currency
                     if let formattedTipAmount = formatter.string(from: currItem.owed as NSNumber) {
-                        self.dollarAmountLabel.text = "\(formattedTipAmount)"
+                        DispatchQueue.main.async {
+                            self.dollarAmountLabel.text = "\(formattedTipAmount)"
+                        }
                     }
                 }
             }
         }
-        
-        // Do any additional setup after loading the view.
     }
     
 
