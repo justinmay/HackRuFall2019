@@ -164,11 +164,12 @@ class BeaconViewController: UIViewController, UITableViewDelegate, UITableViewDa
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "selectTableSegue" {
-            var selectedindex = beaconTableView.indexPathForSelectedRow?.row
+            let selectedindex = beaconTableView.indexPathForSelectedRow?.row
             guard let index = selectedindex else { return }
             let destination = segue.destination as? SessionViewController
             guard let sessionViewController = destination else { return }
             sessionViewController.tableName = listObeacons[index]
+            sessionViewController.tableId = "\(index + 1)"
         }
     }
 }

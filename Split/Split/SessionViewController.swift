@@ -12,14 +12,13 @@ class SessionViewController: UIViewController, UITableViewDelegate, UITableViewD
 
     @IBOutlet weak var navMenuButton: UIButton!
     var tableName : String!
+    var tableId : String!
     
     @IBOutlet weak var partyLabel: UILabel!
     @IBOutlet weak var partyTableView: UITableView!
     
     var partyPeople : PeopleInTable?
     
-    var tableName : String!
-    var tableId : String!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,9 +26,13 @@ class SessionViewController: UIViewController, UITableViewDelegate, UITableViewD
         self.partyTableView.delegate = self
         self.partyTableView.dataSource = self
         
-        DataManager.dataManager.getPeopleInTable(table: <#T##String#>)
         navMenuButton.clipsToBounds = true
         navMenuButton.layer.cornerRadius = 15
+        
+        DataManager.dataManager.getPeopleInTable(table: tableId!, completionBlock: {(people) in
+            self.partyPeople = people
+            self.partyTableView.reloadData()
+        })
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

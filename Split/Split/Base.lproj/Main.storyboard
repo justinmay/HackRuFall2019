@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15400" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Xnq-Bg-1UQ">
-    <device id="retina6_1" orientation="portrait" appearance="light"/>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Xnq-Bg-1UQ">
+    <device id="retina6_1" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15404"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -73,7 +75,7 @@
                                         <rect key="frame" x="0.0" y="28" width="374" height="108"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="tCH-AW-KFE" id="eBq-bI-Run">
-                                            <rect key="frame" x="0.0" y="0.0" width="374" height="108"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="374" height="107.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -81,7 +83,7 @@
                                         <rect key="frame" x="0.0" y="136" width="374" height="101"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="bWI-MZ-UX2" id="XZr-j1-u2s">
-                                            <rect key="frame" x="0.0" y="0.0" width="374" height="101"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="374" height="100.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -134,20 +136,20 @@
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="uS2-aO-bIX">
                                         <rect key="frame" x="0.0" y="74" width="374" height="427"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <connections>
-                                            <outlet property="dataSource" destination="tgf-kE-xhb" id="UrB-lP-pCM"/>
-                                            <outlet property="delegate" destination="tgf-kE-xhb" id="kQb-ge-gqW"/>
-                                        </connections>
                                         <prototypes>
                                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="74" id="Hoc-En-KUJ">
                                                 <rect key="frame" x="0.0" y="28" width="374" height="74"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Hoc-En-KUJ" id="OEx-U3-Ugu">
-                                                    <rect key="frame" x="0.0" y="0.0" width="374" height="74"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="374" height="73.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </tableViewCellContentView>
                                             </tableViewCell>
                                         </prototypes>
+                                        <connections>
+                                            <outlet property="dataSource" destination="tgf-kE-xhb" id="UrB-lP-pCM"/>
+                                            <outlet property="delegate" destination="tgf-kE-xhb" id="kQb-ge-gqW"/>
+                                        </connections>
                                     </tableView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your Party" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SNz-dr-dXl">
                                         <rect key="frame" x="27" y="23" width="301" height="28"/>
@@ -206,6 +208,7 @@
                             <constraint firstItem="ELG-6s-2YR" firstAttribute="top" secondItem="SO1-zQ-2IB" secondAttribute="bottom" constant="4" id="H3Q-JX-Z9T"/>
                             <constraint firstItem="eHs-hO-Y3T" firstAttribute="top" secondItem="H3O-pM-sWm" secondAttribute="topMargin" constant="64" id="HfL-nS-Bbe"/>
                             <constraint firstItem="SO1-zQ-2IB" firstAttribute="leading" secondItem="8lH-Gk-oqj" secondAttribute="leading" constant="24" id="OWs-bU-1OY"/>
+                            <constraint firstItem="uS2-aO-bIX" firstAttribute="leading" secondItem="8lH-Gk-oqj" secondAttribute="leading" constant="20" id="T4u-gq-2WF"/>
                             <constraint firstItem="SO1-zQ-2IB" firstAttribute="top" secondItem="8lH-Gk-oqj" secondAttribute="top" constant="29" id="aSf-1Q-q37"/>
                             <constraint firstItem="ELG-6s-2YR" firstAttribute="leading" secondItem="8lH-Gk-oqj" secondAttribute="leading" constant="40" id="dyc-x3-mAA"/>
                             <constraint firstItem="8lH-Gk-oqj" firstAttribute="trailing" secondItem="SO1-zQ-2IB" secondAttribute="trailing" constant="24" id="j7I-vJ-GpN"/>
