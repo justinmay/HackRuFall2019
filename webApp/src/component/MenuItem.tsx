@@ -27,7 +27,7 @@ class MenuItem extends React.Component<MenuItemProps,MenuItemState>{
         return(
             <div className="MenuItem">
                 <div className="MenuLeft">
-                    <img src={this.state.image} alt="Italian Trulli" style={{objectFit:"cover", height:"100%", width:"10vw",borderTopLeftRadius:"5px", borderBottomLeftRadius:"5px"}}/>
+                    <img src={this.state.image} alt="Italian Trulli" style={{objectFit:"cover", height:"100%", width:"20vw",borderTopLeftRadius:"5px", borderBottomLeftRadius:"5px"}}/>
                         <h2 style={{marginLeft:"10px", fontSize:"4vw"}}>
                             {this.props.name} 
                         </h2>
