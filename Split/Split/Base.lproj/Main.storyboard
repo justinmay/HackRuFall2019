@@ -90,7 +90,7 @@
                                         <rect key="frame" x="0.0" y="28" width="374" height="101"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="bWI-MZ-UX2" id="XZr-j1-u2s">
-                                            <rect key="frame" x="0.0" y="0.0" width="374" height="100.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="374" height="101"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -270,10 +270,10 @@
             </objects>
             <point key="canvasLocation" x="2912" y="900"/>
         </scene>
-        <!--View Controller-->
+        <!--Show Pay View Controller-->
         <scene sceneID="a2p-Dd-xeN">
             <objects>
-                <viewController id="yzk-BO-LDX" sceneMemberID="viewController">
+                <viewController id="yzk-BO-LDX" customClass="ShowPayViewController" customModule="Split" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="c05-d4-DbB">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

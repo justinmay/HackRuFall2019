@@ -150,19 +150,5 @@ class SessionViewController: UIViewController, UITableViewDelegate, UITableViewD
             selectionViewController.tableId = self.tableId
         }
     }
-    
-
 }
 
-//extension UIViewController<T>: ChangeStreamDelegate
-//where T: Encodable, T: Decodable{
-//
-//    public typealias DocumentT = T
-//
-//
-//    func didReceive(event: ChangeEvent<T>) {
-//        // react to events
-//    }
-//
-//}
-//

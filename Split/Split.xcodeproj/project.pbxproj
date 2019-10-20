@@ -22,6 +22,7 @@
 		A8686F46235BA65A00A07E32 /* SessionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8686F45235BA65A00A07E32 /* SessionViewController.swift */; };
 		A8AA20D6235C1EA1004375B9 /* SelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8AA20D5235C1EA1004375B9 /* SelectionViewController.swift */; };
 		A8AA20D8235C32BA004375B9 /* SelectionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8AA20D7235C32BA004375B9 /* SelectionTableViewCell.swift */; };
+		A8AA20DA235C49BF004375B9 /* ShowPayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8AA20D9235C49BF004375B9 /* ShowPayViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -43,6 +44,7 @@
 		A8686F45235BA65A00A07E32 /* SessionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionViewController.swift; sourceTree = "<group>"; };
 		A8AA20D5235C1EA1004375B9 /* SelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionViewController.swift; sourceTree = "<group>"; };
 		A8AA20D7235C32BA004375B9 /* SelectionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionTableViewCell.swift; sourceTree = "<group>"; };
+		A8AA20D9235C49BF004375B9 /* ShowPayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowPayViewController.swift; sourceTree = "<group>"; };
 		EFBE1F030D994F97A21970B9 /* Pods-Split.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Split.release.xcconfig"; path = "Target Support Files/Pods-Split/Pods-Split.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -110,6 +112,7 @@
 				A8686F3C235B934400A07E32 /* BeaconViewController.swift */,
 				9814A077235BE9F000CBA313 /* SessionTableView */,
 				A8AA20D0235C1E10004375B9 /* SelectionTableView */,
+				A8AA20D9235C49BF004375B9 /* ShowPayViewController.swift */,
 				A8686F40235B984C00A07E32 /* BeaconDetection */,
 				A8686F2E235B907E00A07E32 /* Main.storyboard */,
 				A8686F31235B907F00A07E32 /* Assets.xcassets */,
@@ -266,6 +269,7 @@
 				A8686F2D235B907E00A07E32 /* ViewController.swift in Sources */,
 				A8686F3F235B983000A07E32 /* Eddystone.swift in Sources */,
 				A8AA20D8235C32BA004375B9 /* SelectionTableViewCell.swift in Sources */,
+				A8AA20DA235C49BF004375B9 /* ShowPayViewController.swift in Sources */,
 				A8686F3D235B934400A07E32 /* BeaconViewController.swift in Sources */,
 				A8686F44235B98E200A07E32 /* BeaconScanner.swift in Sources */,
 				A8AA20D6235C1EA1004375B9 /* SelectionViewController.swift in Sources */,

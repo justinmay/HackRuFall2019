@@ -16,38 +16,6 @@ class SelectionViewController: UIViewController, UITableViewDelegate, UITableVie
     
     var selectedItems : [item] = []
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if let receipt = self.receipt {
-            return receipt.items.count
-        }
-        return 0
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let receipt = self.receipt else {
-            return UITableViewCell()
-        }
-
-        let customTableViewCell = selectionTableView.dequeueReusableCell(withIdentifier: "selectedItem", for: indexPath) as? SelectionTableViewCell
-        
-        guard let cell = customTableViewCell else { return UITableViewCell()}
-        let item = receipt.items[indexPath.row]
-       // tableViewCell.textLabel?.text = "\(item.name) - price: $\(item.price)"
-        cell.itemNameLabel.text = item.name
-        cell.itemPriceLabel.text = "$\(item.price)"
-        
-        return cell
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-    
-        selectedItems.append(receipt!.items[indexPath.row])
-        //ToDo - add removing items
-        //if tableView.cellForRow(at: indexPath)?.isSelected
-        print(selectedItems)
-    }
-    
     @IBOutlet weak var selectionTableView: UITableView!
     
     public var mongoClient: RemoteMongoClient!
@@ -59,6 +27,7 @@ class SelectionViewController: UIViewController, UITableViewDelegate, UITableVie
     
     func goToPayScreen(){
         print("all payments received: going to Pay screen")
+        self.performSegue(withIdentifier: "showPaymentSegue", sender: self)
     }
     
     override func viewDidLoad() {
@@ -92,10 +61,43 @@ class SelectionViewController: UIViewController, UITableViewDelegate, UITableVie
     @IBAction func selectButtonTapped(_ sender: Any) {
         let username = UserDefaults.standard.string(forKey: "username")
         DataManager.dataManager.pay(username: username!, tableId: tableId, menuItems: self.receipt!.items, completionBlock: {(error) in
-            print("Idk shashank or someone please help lol 3 am very tired")
+            print("3 am very tired")
         })
+        
+        //add the loading indicator here that spins until goToPayScreen is called
     }
     
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if let receipt = self.receipt {
+            return receipt.items.count
+        }
+        return 0
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let receipt = self.receipt else {
+            return UITableViewCell()
+        }
+        
+        let customTableViewCell = selectionTableView.dequeueReusableCell(withIdentifier: "selectedItem", for: indexPath) as? SelectionTableViewCell
+        
+        guard let cell = customTableViewCell else { return UITableViewCell()}
+        let item = receipt.items[indexPath.row]
+        // tableViewCell.textLabel?.text = "\(item.name) - price: $\(item.price)"
+        cell.itemNameLabel.text = item.name
+        cell.itemPriceLabel.text = "$\(item.price)"
+        
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        selectedItems.append(receipt!.items[indexPath.row])
+        //ToDo - add removing items
+        //if tableView.cellForRow(at: indexPath)?.isSelected
+        print(selectedItems)
+    }
+
     /*
     // MARK: - Navigation
 
