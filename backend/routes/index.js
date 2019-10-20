@@ -77,7 +77,7 @@ router.post("/restaurants/:restaurantId/tables/:tableId/verify", function(req, r
           restaurantId: parseInt(req.params.restaurantId),
           tableId: parseInt(req.params.tableId),
           active: true,
-          paid: 0
+          paid: false
         }
       }, {
         upsert: true
@@ -99,15 +99,17 @@ router.post("/restaurants/:restaurantId/tables/:tableId/submit", function(req, r
   console.log(items)
 
   dedupItems = []
-  for (var i in items) {
+  items.forEach(function(i) {
     quantity = i.quantity
+    console.log(i)
+
     for (var x = 1; x <= quantity; x++) {
       dedupItems.push({
         name: i.name+"-"+x,
         price: i.price
       })
     }
-  }
+  })
 
   db.get().collection('sessions').updateOne({
     restaurantId: parseInt(req.params.restaurantId),
@@ -115,9 +117,9 @@ router.post("/restaurants/:restaurantId/tables/:tableId/submit", function(req, r
     active: true
   }, {
     $set: {
-      items: dedupItems
+      items: dedupItems,
+      paid: true
     },
-    paid: true
   }, function(err, result) {
     if (err) {
       console.log(err)
