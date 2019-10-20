@@ -10,23 +10,32 @@ import UIKit
 
 class MenuViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
+    @IBOutlet weak var cardView: UIView!
     @IBOutlet weak var menuTableView: UITableView!
-    var menu: menuItems?
+    var menu: MenuItems?
     
     override func viewDidLoad() {
         super.viewDidLoad()
                 
+        menuTableView.dataSource = self
+        menuTableView.delegate = self
+        
+        cardView.layer.cornerRadius = 20
+        cardView.clipsToBounds = true
+        
         DataManager.dataManager.getMenuItems { (menu) in
             DispatchQueue.main.async { [weak self] in
                 self?.menu = menu
                 self?.menuTableView.reloadData()
+                print("Menu: \(menu?.items)")
             }
 
         }
 
     }
-    
+        
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        print(self.menu?.items.count)
         return self.menu?.items.count ?? 0
     }
     

@@ -24,7 +24,7 @@ class SelectionViewController: UIViewController, UITableViewDelegate, UITableVie
     private var ledgersCollection: RemoteMongoCollection<Document>?
     private var ledgerTableWatcher: LedgerTableCollectionWatcher?
 
-    var receipt: menuItems?
+    var receipt: MenuItems?
     
     func goToPayScreen(){
         print("all payments received: going to Pay screen")
@@ -34,10 +34,15 @@ class SelectionViewController: UIViewController, UITableViewDelegate, UITableVie
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.selectionTableView.layer.cornerRadius = 20
+        self.selectionTableView.clipsToBounds = true
+        
+        
         self.selectionTableView.delegate = self
         self.selectionTableView.dataSource = self
         self.selectionTableView.allowsMultipleSelection = true
         self.selectionTableView.allowsMultipleSelectionDuringEditing = true
+        self.activityIndicator.isHidden = true
         
         DataManager.dataManager.getTableReceipt(tableId: self.tableId, completionBlock: { (receivedItems) in
                 DispatchQueue.main.async { [weak self] in
@@ -62,13 +67,18 @@ class SelectionViewController: UIViewController, UITableViewDelegate, UITableVie
     
     @IBAction func selectButtonTapped(_ sender: UIButton) {
         let username = UserDefaults.standard.string(forKey: "username")
-        DataManager.dataManager.pay(username: username!, tableId: tableId, menuItems: self.receipt!.items, completionBlock: {(error) in
-            print("3 am very tired")
-        })
-        
         activityIndicator.isHidden = false
         sender.isHidden = true
+        print("Select tapped")
+        DataManager.dataManager.pay(username: username!, tableId: tableId, menuItems: selectedItems, completionBlock: {(error) in
+            print("Error in pay: \(error)")
+        })
+        
         activityIndicator.startAnimating()
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 92
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -96,16 +106,19 @@ class SelectionViewController: UIViewController, UITableViewDelegate, UITableVie
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let currItem = receipt!.items[indexPath.row]
-        selectedItems.append(currItem)
-
+        var newItem = true
         for(index, element) in selectedItems.enumerated() {
             if(currItem.name == element.name && currItem.price == element.price) {
                 selectedItems.remove(at: index)
+                newItem = false
+                break;
             }
         }
-        //ToDo - add removing items
-        //if tableView.cellForRow(at: indexPath)?.isSelected
-        print(selectedItems)
+
+        if(newItem) {
+            selectedItems.append(currItem)
+        }
+        print("Selected items: \(selectedItems)")
     }
 
     /*
