@@ -68,6 +68,7 @@
 			children = (
 				A8686F2A235B907E00A07E32 /* AppDelegate.swift */,
 				A8686F2C235B907E00A07E32 /* ViewController.swift */,
+				A8686F49235BBBAA00A07E32 /* DataManager.swift */,
 				A8686F3C235B934400A07E32 /* BeaconViewController.swift */,
 				A8686F45235BA65A00A07E32 /* SessionViewController.swift */,
 				A8686F40235B984C00A07E32 /* BeaconDetection */,
@@ -75,7 +76,6 @@
 				A8686F31235B907F00A07E32 /* Assets.xcassets */,
 				A8686F33235B907F00A07E32 /* LaunchScreen.storyboard */,
 				A8686F36235B907F00A07E32 /* Info.plist */,
-				A8686F49235BBBAA00A07E32 /* DataManager.swift */,
 			);
 			path = Split;
 			sourceTree = "<group>";

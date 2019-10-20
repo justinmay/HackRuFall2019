@@ -10,6 +10,9 @@ import UIKit
 
 class SessionViewController: UIViewController, UITableViewDelegate, UITableViewDataSource{
 
+    @IBOutlet weak var navMenuButton: UIButton!
+    var tableName : String!
+    
     @IBOutlet weak var partyLabel: UILabel!
     @IBOutlet weak var partyTableView: UITableView!
     
@@ -25,6 +28,8 @@ class SessionViewController: UIViewController, UITableViewDelegate, UITableViewD
         self.partyTableView.dataSource = self
         
         DataManager.dataManager.getPeopleInTable(table: <#T##String#>)
+        navMenuButton.clipsToBounds = true
+        navMenuButton.layer.cornerRadius = 15
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
