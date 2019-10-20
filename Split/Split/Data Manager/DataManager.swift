@@ -13,6 +13,11 @@ struct item: Codable {
     var price: Float
 }
 
+struct owed: Codable {
+    var name: String
+    var owed: Float
+}
+
 struct menuItems: Codable {
     var items: [item]
 }
@@ -153,6 +158,26 @@ class DataManager {
         }.resume()
 
         }
+    }
+    
+    func getAmountOwed(tableId: Int, completionBlock: (([owed]?) -> ())?) {
+        guard let url = URL(string:
+            "\(baseUrl)/restaurants/1/tables/\(tableId)/ledger") else { return }
+        var owedArr: [owed]?
+        
+        URLSession.shared.dataTask(with: url) { (data, response, error) in
+            self.debugOutput(data: data, response: response, error: error)
+            guard let data = data else { return }
+            do {
+                let decoder = JSONDecoder()
+                owedArr = try decoder.decode([owed].self, from: data)
+                completionBlock?(owedArr)
+                
+            } catch let err {
+                print("Err", err)
+            }
+            
+            }.resume()
     }
 }
 

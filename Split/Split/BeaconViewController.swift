@@ -182,6 +182,7 @@ class BeaconViewController: UIViewController, UITableViewDelegate, UITableViewDa
             guard let sessionViewController = destination else { return }
             sessionViewController.tableName = listObeacons[index]
             sessionViewController.tableId = (index + 1)
+            UserDefaults.standard.set(index+1, forKey: "tableId")
         }
     }
 }

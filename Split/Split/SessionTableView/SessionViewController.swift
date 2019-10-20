@@ -86,7 +86,6 @@ class SessionViewController: UIViewController, UITableViewDelegate, UITableViewD
             } catch {
                 print("\(error) Session table watcher failed")
             }
-            self.navMenuButton.titleLabel?.font = UIFont(name: "Avenir-Heavy", size: 18)
             
 //            let query: Document = [:]
 //            let sort: Document = [:]
@@ -97,8 +96,9 @@ class SessionViewController: UIViewController, UITableViewDelegate, UITableViewD
 //                print("doc: \(doc)")
 //            }
         }
-            
         
+        self.navMenuButton.titleLabel?.font = UIFont(name: "Avenir-Heavy", size: 18)
+
         self.title = "Justin's Kitchen - \(tableName!)"
         self.partyTableView.delegate = self
         self.partyTableView.dataSource = self

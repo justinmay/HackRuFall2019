@@ -16,6 +16,7 @@ class SelectionViewController: UIViewController, UITableViewDelegate, UITableVie
     
     var selectedItems : [item] = []
     
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var selectionTableView: UITableView!
     
     public var mongoClient: RemoteMongoClient!
@@ -27,6 +28,7 @@ class SelectionViewController: UIViewController, UITableViewDelegate, UITableVie
     
     func goToPayScreen(){
         print("all payments received: going to Pay screen")
+        self.activityIndicator.stopAnimating()
         self.performSegue(withIdentifier: "showPaymentSegue", sender: self)
     }
     
@@ -58,13 +60,15 @@ class SelectionViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     
-    @IBAction func selectButtonTapped(_ sender: Any) {
+    @IBAction func selectButtonTapped(_ sender: UIButton) {
         let username = UserDefaults.standard.string(forKey: "username")
         DataManager.dataManager.pay(username: username!, tableId: tableId, menuItems: self.receipt!.items, completionBlock: {(error) in
             print("3 am very tired")
         })
         
-        //add the loading indicator here that spins until goToPayScreen is called
+        activityIndicator.isHidden = false
+        sender.isHidden = true
+        activityIndicator.startAnimating()
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -91,8 +95,14 @@ class SelectionViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        selectedItems.append(receipt!.items[indexPath.row])
+        let currItem = receipt!.items[indexPath.row]
+        selectedItems.append(currItem)
+
+        for(index, element) in selectedItems.enumerated() {
+            if(currItem.name == element.name && currItem.price == element.price) {
+                selectedItems.remove(at: index)
+            }
+        }
         //ToDo - add removing items
         //if tableView.cellForRow(at: indexPath)?.isSelected
         print(selectedItems)
