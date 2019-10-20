@@ -13,6 +13,9 @@ import StitchRemoteMongoDBService
 
 class SelectionViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
+    
+    var selectedItems : [item] = []
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if let receipt = self.receipt {
             return receipt.items.count
@@ -25,10 +28,24 @@ class SelectionViewController: UIViewController, UITableViewDelegate, UITableVie
             return UITableViewCell()
         }
 
-        let tableViewCell = selectionTableView.dequeueReusableCell(withIdentifier: "selectedItem", for: indexPath)
+        let customTableViewCell = selectionTableView.dequeueReusableCell(withIdentifier: "selectedItem", for: indexPath) as? SelectionTableViewCell
+        
+        guard let cell = customTableViewCell else { return UITableViewCell()}
         let item = receipt.items[indexPath.row]
-        tableViewCell.textLabel?.text = "\(item.name) - price: $\(item.price)"
-        return tableViewCell
+       // tableViewCell.textLabel?.text = "\(item.name) - price: $\(item.price)"
+        cell.itemNameLabel.text = item.name
+        cell.itemPriceLabel.text = "$\(item.price)"
+        
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+    
+        selectedItems.append(receipt!.items[indexPath.row])
+        //ToDo - add removing items
+        //if tableView.cellForRow(at: indexPath)?.isSelected
+        print(selectedItems)
     }
     
     @IBOutlet weak var selectionTableView: UITableView!
@@ -48,6 +65,8 @@ class SelectionViewController: UIViewController, UITableViewDelegate, UITableVie
         super.viewDidLoad()
         self.selectionTableView.delegate = self
         self.selectionTableView.dataSource = self
+        self.selectionTableView.allowsMultipleSelection = true
+        self.selectionTableView.allowsMultipleSelectionDuringEditing = true
         
         DataManager.dataManager.getTableReceipt(tableId: self.tableId, completionBlock: { (receivedItems) in
                 DispatchQueue.main.async { [weak self] in
@@ -71,7 +90,10 @@ class SelectionViewController: UIViewController, UITableViewDelegate, UITableVie
     
     
     @IBAction func selectButtonTapped(_ sender: Any) {
-        
+        let username = UserDefaults.standard.string(forKey: "username")
+        DataManager.dataManager.pay(username: username!, tableId: tableId, menuItems: self.receipt!.items, completionBlock: {(error) in
+            print("Idk shashank or someone please help lol 3 am very tired")
+        })
     }
     
     /*

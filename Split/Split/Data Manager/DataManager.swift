@@ -125,6 +125,35 @@ class DataManager {
             }.resume()
     }
     
+    //when a user is done selecting their items
+    func pay(username: String, tableId: Int, menuItems: [item], completionBlock: ((Error?) -> ())?) {
+        
+        if let url = URL(string: "\(baseUrl)/restaurants/1/tables/\(tableId)/pay?username=\(username)") {
+        
+        var request = URLRequest(url: url)
+        request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+        request.httpMethod = "POST"
+        
+
+        let jsonEncoder = JSONEncoder()
+        do {
+            let jsonData = try jsonEncoder.encode(menuItems)
+            request.httpBody = jsonData
+        } catch {
+            print("error during json encoding of menuItems")
+        }
+        
+        URLSession.shared.dataTask(with: request) { data, response, error in
+        self.debugOutput(data: data, response: response, error: error)
+            if error != nil {
+                completionBlock?(error)
+            } else {
+                completionBlock?(nil)
+            }
+        }.resume()
+
+        }
+    }
 }
 
 
