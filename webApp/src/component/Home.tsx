@@ -29,6 +29,7 @@ export type Menu = {
 export type Item = {
     name: string,
     price: string,
+    string: string,
     quantity: number,
 }
 
@@ -84,10 +85,12 @@ class Home extends React.Component<HomeProps,HomeState>{
             // handle success
             const items: Item[] = [];
             response.data.items.forEach((item: any) => {
+                console.log(item)
                 const tempItem: Item = {
                     name: item.name,
                     price: item.price,
-                    quantity: 0
+                    quantity: 0,
+                    string: item.image,
                 }
                 items.push(tempItem)
             })
@@ -104,6 +107,7 @@ class Home extends React.Component<HomeProps,HomeState>{
                 menus,
                 showTable: true,
             });
+            console.log(menus)
         })
         .catch(function (error: any) {
             // handle error
@@ -121,6 +125,7 @@ class Home extends React.Component<HomeProps,HomeState>{
                 name: i.name,
                 price: i.price,
                 quantity: i.quantity,
+                string: i.string
             }
             ret.push(item)
         });

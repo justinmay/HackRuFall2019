@@ -105,17 +105,6 @@ class TableView extends React.Component<TableViewProps,TableViewState>{
                         <h3>
                             Table {this.state.currentTableID}
                         </h3>
-                        <h3>
-                            # of Patrons: {this.props.tables.map(table => {
-                                if (table.key === this.state.currentTableID) {
-                                    return table.numPeople
-                                }
-                                return false
-                            })}
-                        </h3>
-                        <h3>
-                            Total Time: 
-                        </h3>
                     </div>
                     <div style={{display:"flex",flexDirection:"row"}}>
                         <button className="checkout" onClick={() => this.sendIt()}>
@@ -132,7 +121,7 @@ class TableView extends React.Component<TableViewProps,TableViewState>{
                             return menu.items.map(item => {
                                 return <MenuItem
                                     name={item.name}
-                                    image=""
+                                    image={item.string}
                                     status=""
                                     quantity={item.quantity}
                                     updateQuantity={this.updateMenu}
