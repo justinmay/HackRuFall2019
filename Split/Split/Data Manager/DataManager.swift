@@ -13,6 +13,11 @@ struct item: Codable {
     var price: Float
 }
 
+struct owed: Codable {
+    var name: String
+    var owed: Float
+}
+
 struct menuItems: Codable {
     var items: [item]
 }
@@ -24,7 +29,7 @@ struct PeopleInTable: Codable {
 class DataManager {
     
     static let dataManager = DataManager()
-    let baseUrl: String = "https://3e3f4486.ngrok.io"
+    let baseUrl: String = "https://b8c04993.ngrok.io"
     
     func debugOutput(data: Data?, response: URLResponse?, error: Error?) {
         guard let data = data,
@@ -104,6 +109,76 @@ class DataManager {
     }
     
     
+    func getTableReceipt(tableId: Int, completionBlock: ((menuItems?) -> ())?) {
+        
+        guard let url = URL(string:
+            "\(baseUrl)/restaurants/1/tables/\(tableId)/receipt") else { return }
+        var menu: menuItems?
+        
+        URLSession.shared.dataTask(with: url) { (data, response, error) in
+            self.debugOutput(data: data, response: response, error: error)
+            guard let data = data else { return }
+            do {
+                let decoder = JSONDecoder()
+                menu = try decoder.decode(menuItems.self, from: data)
+                completionBlock?(menu)
+                
+            } catch let err {
+                print("Err", err)
+            }
+            
+            }.resume()
+    }
+    
+    //when a user is done selecting their items
+    func pay(username: String, tableId: Int, menuItems: [item], completionBlock: ((Error?) -> ())?) {
+        
+        if let url = URL(string: "\(baseUrl)/restaurants/1/tables/\(tableId)/pay?username=\(username)") {
+        
+        var request = URLRequest(url: url)
+        request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+        request.httpMethod = "POST"
+        
+
+        let jsonEncoder = JSONEncoder()
+        do {
+            let jsonData = try jsonEncoder.encode(menuItems)
+            request.httpBody = jsonData
+        } catch {
+            print("error during json encoding of menuItems")
+        }
+        
+        URLSession.shared.dataTask(with: request) { data, response, error in
+        self.debugOutput(data: data, response: response, error: error)
+            if error != nil {
+                completionBlock?(error)
+            } else {
+                completionBlock?(nil)
+            }
+        }.resume()
+
+        }
+    }
+    
+    func getAmountOwed(tableId: Int, completionBlock: (([owed]?) -> ())?) {
+        guard let url = URL(string:
+            "\(baseUrl)/restaurants/1/tables/\(tableId)/ledger") else { return }
+        var owedArr: [owed]?
+        
+        URLSession.shared.dataTask(with: url) { (data, response, error) in
+            self.debugOutput(data: data, response: response, error: error)
+            guard let data = data else { return }
+            do {
+                let decoder = JSONDecoder()
+                owedArr = try decoder.decode([owed].self, from: data)
+                completionBlock?(owedArr)
+                
+            } catch let err {
+                print("Err", err)
+            }
+            
+            }.resume()
+    }
 }
 
 
