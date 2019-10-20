@@ -67,6 +67,8 @@ class SessionViewController: UIViewController, UITableViewDelegate, UITableViewD
                 print("\(error) People table watcher failed")
             }
             
+            self.navMenuButton.titleLabel?.font = UIFont(name: "Avenir-Heavy", size: 18)
+            
 //            let query: Document = [:]
 //            let sort: Document = [:]
 //            self.tablesCollection?.insertOne(["a": 5] as Document) { doc in
@@ -104,11 +106,16 @@ class SessionViewController: UIViewController, UITableViewDelegate, UITableViewD
 
     }
     
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 70
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let peeps = partyPeople else { return UITableViewCell() }
 
         let tableViewCell = partyTableView.dequeueReusableCell(withIdentifier: "people", for: indexPath)
         tableViewCell.textLabel?.text = peeps.people[indexPath.row]
+        tableViewCell.textLabel?.font = UIFont(name: "Avenir-Heavy", size: 18)!
         return tableViewCell
     }
     

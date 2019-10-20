@@ -41,6 +41,8 @@ class BeaconViewController: UIViewController, UITableViewDelegate, UITableViewDa
         self.beaconScanner = BeaconScanner()
         self.beaconScanner!.delegate = self
         self.beaconScanner!.startScanning()
+                
+        self.navigationController?.navigationBar.barTintColor = .white
         
     }
     
@@ -51,6 +53,7 @@ class BeaconViewController: UIViewController, UITableViewDelegate, UITableViewDa
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let tableViewCell = tableView.dequeueReusableCell(withIdentifier: "tables", for: indexPath)
         tableViewCell.textLabel?.text = listObeacons[indexPath.row]
+        tableViewCell.textLabel?.font = UIFont(name: "Avenir-Heavy", size: 30)
         return tableViewCell
     }
 
