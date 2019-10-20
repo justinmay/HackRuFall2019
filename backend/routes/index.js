@@ -77,7 +77,6 @@ router.post("/restaurants/:restaurantId/tables/:tableId/verify", function(req, r
           restaurantId: parseInt(req.params.restaurantId),
           tableId: parseInt(req.params.tableId),
           active: true,
-          itemMap: {},
           paid: 0
         }
       }, {
@@ -97,6 +96,18 @@ router.post("/restaurants/:restaurantId/tables/:tableId/verify", function(req, r
 
 router.post("/restaurants/:restaurantId/tables/:tableId/submit", function(req, res, next) {
   var items = req.body;
+  console.log(items)
+
+  dedupItems = []
+  for (var i in items) {
+    quantity = i.quantity
+    for (var x = 1; x <= quantity; x++) {
+      dedupItems.push({
+        name: i.name+"-"+x,
+        price: i.price
+      })
+    }
+  }
 
   db.get().collection('sessions').updateOne({
     restaurantId: parseInt(req.params.restaurantId),
@@ -104,8 +115,9 @@ router.post("/restaurants/:restaurantId/tables/:tableId/submit", function(req, r
     active: true
   }, {
     $set: {
-      items: items
-    }
+      items: dedupItems
+    },
+    paid: true
   }, function(err, result) {
     if (err) {
       console.log(err)
@@ -127,7 +139,7 @@ router.post("/restaurants/:restaurantId/tables/:tableId/pay", function(req, res,
 
   pushMap = {}
   for (var i in itemsToPay) {
-    pushMap["itemMap." + i] = username
+    pushMap["itemMap." + username] = i
   }
 
   var updateObj = {
