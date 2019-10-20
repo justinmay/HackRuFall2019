@@ -10,6 +10,7 @@ import UIKit
 
 class SessionViewController: UIViewController {
 
+    @IBOutlet weak var navMenuButton: UIButton!
     var tableName : String!
     
     @IBOutlet weak var partyLabel: UILabel!
@@ -17,6 +18,8 @@ class SessionViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "Justin's Kitchen - \(tableName!)"
+        navMenuButton.clipsToBounds = true
+        navMenuButton.layer.cornerRadius = 15
     }
     
 
