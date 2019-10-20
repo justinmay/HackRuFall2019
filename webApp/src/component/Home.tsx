@@ -10,6 +10,7 @@ type HomeState = {
     menus: Menu[],
     currentTableID: number,
     showTable: boolean,
+    url: string
 }
 
 type HomeProps = {
@@ -42,7 +43,8 @@ class Home extends React.Component<HomeProps,HomeState>{
             tables: [],
             menus: [],
             currentTableID: 1,
-            showTable: false
+            showTable: false,
+            url: "https://7e21ab3b.ngrok.io"
         };
         this.setCurrentTableID = this.setCurrentTableID.bind(this);
     }
@@ -50,7 +52,7 @@ class Home extends React.Component<HomeProps,HomeState>{
     /** Get table data from the Backend */
     getTables() {
         const self = this;
-        this.state.axios.get('https://3e3f4486.ngrok.io/restaurants/1/tables')
+        this.state.axios.get(`${this.state.url}/restaurants/1/tables`)
         .then(function (response: any) {
             // handle success
             const tables = response.data.tables;
@@ -77,7 +79,7 @@ class Home extends React.Component<HomeProps,HomeState>{
     /** Get menu items  */
     getMenu(stateTables: Table[]){
         const self = this;
-        this.state.axios.get('https://3e3f4486.ngrok.io/restaurants/1/items')
+        this.state.axios.get(`${this.state.url}/restaurants/1/items`)
         .then(function (response: any) {
             // handle success
             const items: Item[] = [];
@@ -152,6 +154,7 @@ class Home extends React.Component<HomeProps,HomeState>{
                         tables={this.state.tables}
                         currentTableID={this.state.currentTableID}
                         axios={this.state.axios}
+                        url={this.state.url}
                     /> : null
                     }
                     
