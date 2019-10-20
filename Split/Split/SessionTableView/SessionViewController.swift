@@ -13,6 +13,7 @@ import StitchRemoteMongoDBService
 
 class SessionViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
+    @IBOutlet weak var cardView: UIView!
     @IBOutlet weak var navMenuButton: UIButton!
     var tableName : String!
     var tableId : String!
@@ -80,6 +81,9 @@ class SessionViewController: UIViewController, UITableViewDelegate, UITableViewD
         self.title = "Justin's Kitchen - \(tableName!)"
         self.partyTableView.delegate = self
         self.partyTableView.dataSource = self
+        
+        self.cardView.layer.cornerRadius = 20
+        self.cardView.clipsToBounds = true
         
         navMenuButton.clipsToBounds = true
         navMenuButton.layer.cornerRadius = 15

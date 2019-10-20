@@ -34,6 +34,10 @@ class BeaconViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.beaconTableView.layer.cornerRadius = 20
+        self.beaconTableView.clipsToBounds = true
+        
         self.beaconScanner = BeaconScanner()
         self.beaconScanner!.delegate = self
         self.beaconScanner!.startScanning()
@@ -52,6 +56,10 @@ class BeaconViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
     func didFindBeacon(beaconScanner: BeaconScanner, beaconInfo: BeaconInfo) {
          NSLog("FIND: %@", beaconInfo.description)
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 100
     }
     
     func didLoseBeacon(beaconScanner: BeaconScanner, URL: NSURL, beaconInfo: BeaconInfo) {
